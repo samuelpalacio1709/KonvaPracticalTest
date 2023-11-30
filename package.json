@@ -13,6 +13,7 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
-    "konva": "^9.2.3"
+    "konva": "^9.2.3",
+    "stats-js": "^1.0.1"
   }
 }
