@@ -18,29 +18,107 @@
   <main>
     <section id="editor" class="canvas-editor">
       <div class="canvas-config ">
-        <div class="config-options flex-container-center">
-          <div id="figures" class="config-selector">
-            <h2>Add Figure</h2>
-            <div class="figures">
-              <div class="figure"></div>
-              <div class="figure"></div>
-              <div class="figure"></div>
-              <div class="figure"></div>
+        <div class="scroll-options">
+
+          <div class="config-options flex-container-center">
+            <div id="figures" class="config-selector">
+              <h2>Add Figure</h2>
+              <div class="figures">
+                <div class="figure center">
+                  <img src="assets/imgs/circle.png" alt="circle">
+                </div>
+                <div class="figure center">
+                  <img src="assets/imgs/triangle.png" alt="triangle">
+                </div>
+                <div class="figure center">
+                  <img src="assets/imgs/square.png" alt="square">
+                </div>
+                <div class="figure center">
+                  <img src="assets/imgs/heart.png" alt="heart">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <div id="transformations" class="config-selector">
+              <div class="selection">
+                <h2 class="input-text ">Position</h2>
+                <div class="inputs-collection">
+                  <input class="input-number" id="x-position" type="number" placeholder="X">
+                  <input class="input-number" id="y-position" type="number" placeholder="Y">
+                </div>
+
+              </div>
+              <div class="selection">
+                <h2 class="input-text">Size</h2>
+                <div class="inputs-collection">
+                  <input class="input-number" id="width" type="number" placeholder="W">
+                  <input class="input-number" id="height" type="number" placeholder="H">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <div class="config-selector">
+              <div class="simple-selector">
+                <h2 class="input-text">Background</h2>
+                <div class="flex-container-start">
+                  <input class="input-color" type="color">
+                  <input class="input-number-color" type="text" placeholder="#FFFFFF">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <div class="config-selector">
+              <div class="simple-selector">
+                <h2 class="input-text">Opacity</h2>
+                <div class="flex-container-start">
+                  <input type="range">
+                  <input class="input-percentage" id="opacity" type="number" placeholder="%">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <div class="config-selector">
+              <div class="simple-selector">
+                <h2 class="input-text">Borders</h2>
+                <div class="flex-container-space">
+                  <div class="flex-container-start">
+                    <input id="border-color" class="input-color" type="color">
+                    <input class="input-number-borders" id="border-color-value" type="number" placeholder="">
+                  </div>
+                  <div class="flex-container-start">
+                    <h4>Line</h4>
+                    <input class="input-number-borders" id="border-color-value" type="number" placeholder="">
+                  </div>
+                  <div class="flex-container-start">
+                    <h4>Spacing</h4>
+                    <input class="input-number-borders" id="border-color-value" type="number" placeholder="">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="line-separator"></div>
+
+            <div class="config-selector">
+              <div class="simple-selector">
+
+                <div class="flex-container-start">
+                  <h2 class="m-right">Text</h2>
+                  <input class="input-text-inside" id="text" type="text" placeholder="Write a text">
+                </div>
+              </div>
             </div>
           </div>
-          <div class="line-separator"></div>
-          <div class="config-selector"></div>
-          <div class="line-separator"></div>
-          <div class="config-selector"></div>
-          <div class="line-separator"></div>
-          <div class="config-selector"></div>
-          <div class="line-separator"></div>
-          <div class="config-selector"></div>
-          <div class="line-separator"></div>
-
-          <div class="config-selector"></div>
         </div>
 
+        <div class="project-buttons">
+          <button>
+            <h3>Save</h3>
+          </button>
+          <button>
+            <h3>Download</h3>
+          </button>
+        </div>
       </div>
     </section>
   </main>

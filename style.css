@@ -14,6 +14,7 @@
   --dash-lines-color: #BCC2CC;
   --border-radius-first: 10px;
   --border-radius-second: 44px;
+  --border-radius-third: 5px;
   --outline--width: 2px;
   padding: 0;
   box-sizing: border-box;
@@ -35,16 +36,23 @@ header {
 }
 
 h1 {
-  font-family: "gilbert-color", sans-serif;
+  font-family: "gilbert", sans-serif;
   font-weight: 700;
   font-style: normal;
   color: var(--main-titles-color);
   font-size: 38px;
+  
 }
 
-h2 {
+h2, h4 {
   font-family: 'Nanum Gothic', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 800;
+
+}
+h4 {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 13px;
   font-weight: 800;
 
 }
@@ -53,13 +61,11 @@ p {
   font-family: 'Helvetica';
   color: var(--p-color);
   font-weight: 500;
-
 }
 
 .flex-container-center {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   flex-direction: column;
 }
 
@@ -69,6 +75,14 @@ p {
   justify-content: space-between;
 }
 
+.flex-container-start{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.m-right{
+  margin-right: 20px;
+}
 .shadow {
   box-shadow: 0px 6px 12px #00000014;
 }
@@ -81,6 +95,7 @@ p {
   border-radius: var(--border-radius-second);
   cursor: pointer;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .button-close img {
@@ -99,55 +114,169 @@ p {
 }
 
 .canvas-config {
-  right: 80px;
-  width: 380px;
-  height: 91%;
+  width: 350px;
+  height: 94%;
   background-color: var(--light-color);
   border-radius: var(--border-radius-first);
   box-shadow: 6px 6px 12px #00000010;
-  overflow-y: auto;
+  position: relative;
+  overflow: hidden;
+  max-height: 780px;
 }
 
 .config-selector {
   width: 80%;
-  height: 15%;
-  position: relative;
-  min-height: 90px;
+  height: 16%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding-left: 20px;
+  justify-content: center;
+
 }
 
 .line-separator {
   content: "";
-  width: 80%;
-  height: 2px;
+  width: 88%;
   bottom: 0;
-  background-color: var(--separator-lines-color);
   opacity: 0.09;
-
+  border: 1px solid var(--separator-lines-color);
 }
 
 .config-options {
-  height: 100%;
+  padding-top: 20px;
   min-height: 570px;
   width: 100%;
+  height:90%;
 }
 
 .figures {
   width: 94%;
-  height: 64%;
+  height: 65px;
   align-items: center;
   flex-direction: row;
   display: flex;
   justify-content: space-between;
+ 
+}
+
+.center { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .figure {
-  width: 55px;
-  height: 55px;
-  border-radius: var(--border-radius-first);
+  width: 43px;
+  height: 43px;
+  border-radius: var(--border-radius-third);
   border: 1px dashed var(--dash-lines-color);
+  cursor: pointer;
+}
+
+.figure img {
+  width:50%;
+}
+
+.selection {
+  display: flex;
+  width: 94%;
+  height: 45px;
+  align-items: center;
+}
+input:focus {
+  outline: none;
+}
+.input-number, .input-number-color, .input-percentage, .input-number-borders, .input-text-inside {
+  width: 70px;
+  height: 35px;
+  border-radius: var(--border-radius-third);
+  padding: 3px;
+  border: 1px solid var(--dash-lines-color);
+}
+
+.input-number-color {
+  width:90px;
+  margin-left: 20px;
+}
+
+.input-percentage{
+  width:50px;
+  margin-left: 20px;
+}
+
+.input-number-borders{
+  width:35px;
+  height:35px;
+  margin-left: 8px;
+}
+.inputs-collection {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+}
+
+.input-text {
+  width: 30%;
+}
+
+.input-text-inside{
+  width: 70%;
+}
+
+.input-color{
+  border: none;
+  width: 35px;
+  height: 35px;
+  padding:0;
+  margin:0;
+  border-color: transparent;
+  background-color: transparent;
+
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: var(--border-radius-third);
+}
+
+.simple-selector{
+  height: 80px;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction:column;
+}
+
+input[type="range"] {
+  width: 60%;
+}
+
+.project-buttons{
+  width:100%;
+  height:70px;
+  position: absolute;
+  bottom:0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-left: 60px;
+  padding-right: 60px;
+  background-color: var(--light-color);
+}
+
+.scroll-options{
+  height:100%;
+  width:100%;
+  position: absolute;
+  overflow-y: auto;
+}
+
+button {
+  width:92px;
+  height: 30px;
+  border: none;
+  border-radius: var(--border-radius-third)
 }
