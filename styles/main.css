@@ -111,6 +111,7 @@ p {
   justify-content: flex-end;
   align-items: center;
   padding-right: 100px;
+  pointer-events: none;
 }
 
 .canvas-config {
@@ -122,6 +123,8 @@ p {
   position: relative;
   overflow: hidden;
   max-height: 780px;
+  pointer-events: all;
+
 }
 
 .config-selector {
