@@ -2,6 +2,12 @@ export class CommandInvoker {
   constructor() {
     this.history = [];
     this.redoHistory = [];
+    this.init();
+  }
+
+  init = () => {
+    this.commandEvent = new CustomEvent("command");
+    this.onCommand = () => document.dispatchEvent(this.commandEvent);
 
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey && event.key.toLowerCase() === "z") {
@@ -11,12 +17,13 @@ export class CommandInvoker {
         this.redo();
       }
     });
-  }
+  };
 
   executeCommand = (command) => {
     command.execute();
     this.history.push(command);
     this.redoHistory = [];
+    this.onCommand();
   };
 
   undo = () => {
@@ -24,6 +31,7 @@ export class CommandInvoker {
       const command = this.history.pop();
       this.redoHistory.push(command);
       command.undo();
+      this.onCommand();
     }
   };
 
@@ -32,6 +40,7 @@ export class CommandInvoker {
       const command = this.redoHistory.pop();
       this.history.push(command);
       command.execute();
+      this.onCommand();
     }
   };
 }
@@ -49,7 +58,6 @@ export class ColorCommand extends Command {
     this.figure = figure;
     this.lastColor = figure.getFill();
     this.color = input.value;
-    this.input = input;
     this.lastColor = figure.getAttr("lastColor");
   }
 
@@ -60,5 +68,23 @@ export class ColorCommand extends Command {
   undo = () => {
     this.figure.fill(this.lastColor);
     this.figure.setAttr("lastColor", this.lastColor);
+  };
+}
+
+export class OpacityCommand extends Command {
+  constructor(figure, input) {
+    super();
+    this.figure = figure;
+    this.opacity = input.value;
+    this.lastOpacity = figure.getAttr("lastOpacity");
+  }
+
+  execute = () => {
+    this.figure.setOpacity(Number(this.opacity));
+  };
+
+  undo = () => {
+    this.figure.setOpacity(Number(this.lastOpacity));
+    this.figure.setAttr("lastOpacity", this.lastOpacity);
   };
 }

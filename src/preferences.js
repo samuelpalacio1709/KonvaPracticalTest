@@ -3,8 +3,8 @@ export const preferences = {
   defaultBackgroundColor: "white",
   delfaultCanvasSize: { width: 500, height: 500 },
 
-  //Transform tool
-  defualtTransformer: {
+  //transformer tool
+  defaultTransformer: {
     anchorStroke: "#CEE36E",
     anchorFill: "#CEE36E",
     borderStroke: "#CEE36E",

@@ -25,21 +25,20 @@
     <section id="editor" class="canvas-editor">
       <div class="canvas-config ">
         <div class="scroll-options">
-
-          <div class="config-options flex-container-center">
+          <div class="config-options flex-container-center hide" id="figure-editor-inputs">
             <div id="figures" class="config-selector">
               <h2>Add Figure</h2>
               <div class="figures">
-                <div class="figure center">
+                <div class="figure center" data-figure="circle">
                   <img src="assets/imgs/circle.png" alt="circle">
                 </div>
-                <div class="figure center">
+                <div class="figure center" data-figure="triangle">
                   <img src="assets/imgs/triangle.png" alt="triangle">
                 </div>
-                <div class="figure center">
+                <div class="figure center" data-figure="square">
                   <img src="assets/imgs/square.png" alt="square">
                 </div>
-                <div class="figure center">
+                <div class="figure center" data-figure="heart">
                   <img src="assets/imgs/heart.png" alt="heart">
                 </div>
               </div>
@@ -71,7 +70,7 @@
                 <h2 class="input-text">Background</h2>
                 <div class="flex-container-start">
                   <input class="input-color" type="color" id="color-picker">
-                  <input class="input-number-color" type="text" placeholder="#FFFFFF">
+                  <input class="input-number-color" type="text" placeholder="#FFFFFF" id="color-picker-text">
                 </div>
               </div>
             </div>
@@ -80,8 +79,8 @@
               <div class="simple-selector">
                 <h2 class="input-text">Opacity</h2>
                 <div class="flex-container-start">
-                  <input type="range">
-                  <input class="input-percentage" id="opacity" type="number" placeholder="%">
+                  <input type="range" id="opacity-range" min=0 max=1 value=1 step=0.01>
+                  <input class="input-percentage" id="opacity-number" type="number" placeholder="%">
                 </div>
               </div>
             </div>
@@ -118,6 +117,50 @@
               </div>
             </div>
           </div>
+
+          <div class="config-options flex-container-center " id="canvas-editor-inputs">
+            <div id="figures" class="config-selector">
+              <h2>Add Figure</h2>
+              <div class="figures">
+                <div class="figure center" data-figure="circle">
+                  <img src="assets/imgs/circle.png" alt="circle">
+                </div>
+                <div class="figure center" data-figure="triangle">
+                  <img src="assets/imgs/triangle.png" alt="triangle">
+                </div>
+                <div class="figure center" data-figure="square">
+                  <img src="assets/imgs/square.png" alt="square">
+                </div>
+                <div class="figure center" data-figure="heart">
+                  <img src="assets/imgs/heart.png" alt="heart">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+
+            <div id="transformations" class="config-selector">
+              <h2>Canvas</h2>
+
+              <div class="selection">
+                <h2 class="input-text">Size</h2>
+                <div class="inputs-collection">
+                  <input class="input-number" id="width-canvas" type="number" placeholder="W">
+                  <input class="input-number" id="height-canvas" type="number" placeholder="H">
+                </div>
+              </div>
+            </div>
+            <div class="line-separator"></div>
+            <div class="config-selector">
+              <div class="simple-selector">
+                <h2 class="input-text">Background</h2>
+                <div class="flex-container-start">
+                  <input class="input-color" type="color" id="color-picker-canvas">
+                  <input class="input-number-color" type="text" placeholder="#FFFFFF" id="color-picker-text-canvas">
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div class="project-buttons">
