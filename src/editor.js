@@ -1,36 +1,28 @@
 import * as Konva from "Konva";
 import { preferences } from "./preferences.js";
+import { CommandInvoker, ColorCommand } from "./commands.js";
 import Stats from "stats-js";
 
 export class Editor {
-  constructor() {
+  constructor(inputs) {
+    this.inputs = inputs;
     this.stage = new Konva.Stage({
       container: "canvas-container",
-      width: 500,
-      height: 500,
+      ...preferences.delfaultCanvasSize,
     });
     this.mainLayer = new Konva.Layer();
     this.topLayer = new Konva.Layer();
     this.stage.add(this.mainLayer);
     this.stage.add(this.topLayer);
     this.selected = null;
-    this.transformer = new Konva.Transformer({
-      anchorStroke: preferences.transformToolColor,
-      anchorFill: preferences.transformToolColor,
-      borderStroke: preferences.transformToolColor,
-      anchorSize: preferences.tranformToolAnchorSize,
-      anchorCornerRadius: preferences.transfromToolBorderRadius,
-      borderStrokeWidth: preferences.tranformToolborderStrokeWidth,
-      padding: preferences.transfromToolPadding,
-      rotateAnchorOffset: preferences.transfromToolrotateAnchorOffset,
-    });
-    console.log(this.transformer);
+    this.transformer = new Konva.Transformer(preferences.defualtTransformer);
     this.background = new Konva.Rect({
       width: this.stage.width(),
       height: this.stage.height(),
       fill: preferences.defaultBackgroundColor,
       listening: false,
     });
+    this.CommandInvoker = new CommandInvoker();
     this.init();
   }
 
@@ -39,16 +31,17 @@ export class Editor {
     this.topLayer.add(this.transformer);
     this.stage.on("click tap", this.onClick);
     this.stage.on("wheel", this.onWheel);
+    this.handleInputs();
     this.showPerformanceFPS();
   };
 
   addFigureToLayer = (figure) => {
     this.transformer.nodes([figure]);
     this.mainLayer.add(figure);
+    this.setUpFigure(figure);
   };
 
   onClick = (event) => {
-    console.log(event);
     if (event.target === this.stage) {
       this.changeSelection(null);
       this.transformer.nodes([]);
@@ -98,5 +91,30 @@ export class Editor {
 
   changeSelection = (newSelection) => {
     this.selected = newSelection;
+  };
+
+  setUpFigure = (figure) => {
+    this.selected = figure;
+    this.selected.setAttr("lastColor", figure.getFill());
+  };
+
+  handleInputs = () => {
+    // Color
+    this.inputs.colorPicker.addEventListener("change", (e) => {
+      if (this.selected) {
+        const colorCommand = new ColorCommand(
+          this.selected,
+          this.inputs.colorPicker
+        );
+        this.CommandInvoker.executeCommand(colorCommand);
+        this.selected.setAttr("lastColor", e.target.value);
+      }
+    });
+
+    this.inputs.colorPicker.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.fill(e.target.value);
+      }
+    });
   };
 }

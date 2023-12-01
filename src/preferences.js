@@ -1,20 +1,25 @@
 export const preferences = {
-  //BG
+  //canvas
   defaultBackgroundColor: "white",
+  delfaultCanvasSize: { width: 500, height: 500 },
 
   //Transform tool
-  transformToolColor: "#CEE36E",
-  tranformToolAnchorSize: 6,
-  transfromToolBorderRadius: 50,
-  transfromToolPadding: 3,
-  tranformToolborderStrokeWidth: 2,
-  transfromToolrotateAnchorOffset: 20,
+  defualtTransformer: {
+    anchorStroke: "#CEE36E",
+    anchorFill: "#CEE36E",
+    borderStroke: "#CEE36E",
+    anchorSize: 6,
+    anchorCornerRadius: 50,
+    borderStrokeWidth: 2,
+    padding: 3,
+    rotateAnchorOffset: 20,
+  },
 
   //shapes
   rectDeafult: {
     width: 200,
     height: 200,
-    fill: "red",
+    fill: "#FF0000",
     opacity: 1,
     stroke: "black",
     strokeWidth: 4,
@@ -33,3 +38,21 @@ export const preferences = {
     strokeScaleEnabled: false,
   },
 };
+
+const setBehaviors = () => {
+  preventZoom();
+};
+
+const preventZoom = () => {
+  document.addEventListener(
+    "wheel",
+    function (event) {
+      if (event.ctrlKey) {
+        event.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+};
+
+setBehaviors();
