@@ -13,7 +13,7 @@ export class Editor {
     this.topLayer = new Konva.Layer();
     this.stage.add(this.mainLayer);
     this.stage.add(this.topLayer);
-
+    this.selected = null;
     this.transformer = new Konva.Transformer({
       anchorStroke: preferences.transformToolColor,
       anchorFill: preferences.transformToolColor,
@@ -38,7 +38,8 @@ export class Editor {
     this.mainLayer.add(this.background);
     this.topLayer.add(this.transformer);
     this.stage.on("click tap", this.onClick);
-    //this.showPerformanceFPS();
+    this.stage.on("wheel", this.onWheel);
+    this.showPerformanceFPS();
   };
 
   addFigureToLayer = (figure) => {
@@ -49,14 +50,41 @@ export class Editor {
   onClick = (event) => {
     console.log(event);
     if (event.target === this.stage) {
+      this.changeSelection(null);
       this.transformer.nodes([]);
       return;
     }
 
     if (event.target) {
+      this.changeSelection(event.target);
       this.transformer.nodes([event.target]);
     }
   };
+  onWheel = (event) => {
+    var scaleBy = 1.01;
+
+    const oldScale = this.stage.scaleX();
+    const pointer = this.stage.getPointerPosition();
+    var mousePointTo = {
+      x: (pointer.x - this.stage.x()) / oldScale,
+      y: (pointer.y - this.stage.y()) / oldScale,
+    };
+
+    let direction = event.evt.deltaY > 0 ? 1 : -1;
+    if (event.evt.ctrlKey) {
+      direction = -direction;
+    }
+
+    const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    this.stage.scale({ x: newScale, y: newScale });
+
+    const newPos = {
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    };
+    this.stage.position(newPos);
+  };
+
   showPerformanceFPS = () => {
     const stats = new Stats();
     document.body.appendChild(stats.domElement);
@@ -66,5 +94,9 @@ export class Editor {
       stats.end();
     };
     window.requestAnimationFrame(updateStats);
+  };
+
+  changeSelection = (newSelection) => {
+    this.selected = newSelection;
   };
 }

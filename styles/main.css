@@ -102,6 +102,10 @@ p {
   width: 15px;
 }
 
+.wrapper {
+  width: 80%;
+  height: 100%;
+}
 .canvas-editor {
   position: relative;
   width: 100vw;
