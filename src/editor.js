@@ -1,13 +1,16 @@
 import * as Konva from "Konva";
 import { preferences } from "./preferences.js";
-import { CommandInvoker, ColorCommand, OpacityCommand } from "./commands.js";
+import {
+  CommandInvoker,
+  ColorCommand,
+  OpacityCommand,
+  CanvasResizeCommand,
+} from "./commands.js";
 import Stats from "stats-js";
 import { ViewController } from "./viewController.js";
 
 export class Editor {
   constructor(inputs) {
-    this.commandInvoker = new CommandInvoker();
-    this.viewController = new ViewController(inputs);
     this.inputs = inputs;
     this.selected = null;
 
@@ -26,6 +29,8 @@ export class Editor {
       listening: false,
     });
 
+    this.commandInvoker = new CommandInvoker();
+    this.viewController = new ViewController(this);
     this.init();
   }
 
@@ -48,12 +53,14 @@ export class Editor {
     this.mainLayer.add(this.background);
     this.transformerLayer.add(this.transformer);
 
+    this.setCanvasConfig();
     this.setFigures();
-
     this.handleInputs();
     this.updateGuiView();
   };
-
+  setCanvasConfig = () => {
+    this.background.setAttr("lastColor", preferences.defaultBackgroundColor);
+  };
   setFigures = () => {
     this.inputs.figures.forEach((figure) => {
       figure.addEventListener("click", () => {
@@ -157,11 +164,66 @@ export class Editor {
   };
 
   updateGuiView = () => {
-    this.viewController.updateView(this);
+    this.viewController.updateView();
+  };
+
+  setInputPreviews = () => {
+    this.inputs.colorPicker.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.fill(e.target.value);
+        this.onGUI();
+      }
+    });
+
+    this.inputs.opacity.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.setOpacity(Number(e.target.value));
+        this.onGUI();
+      }
+    });
+
+    this.inputs.colorPickerCanvas.addEventListener("input", (e) => {
+      if (this.background) {
+        this.background.fill(e.target.value);
+        this.onGUI();
+      }
+    });
   };
 
   handleInputs = () => {
-    // Color
+    //Canvas width and height
+    this.inputs.widthCanvas.addEventListener("change", (e) => {
+      const resizeCommand = new CanvasResizeCommand(
+        this.stage,
+        this.background,
+        e.target.value,
+        "width"
+      );
+      this.commandInvoker.executeCommand(resizeCommand);
+    });
+    this.inputs.heightCanvas.addEventListener("change", (e) => {
+      const resizeCommand = new CanvasResizeCommand(
+        this.stage,
+        this.background,
+        e.target.value,
+        "height"
+      );
+      this.commandInvoker.executeCommand(resizeCommand);
+    });
+
+    //Background Color
+    this.inputs.colorPickerCanvas.addEventListener("change", (e) => {
+      if (this.background) {
+        const colorCommand = new ColorCommand(
+          this.background,
+          this.inputs.colorPickerCanvas
+        );
+        this.commandInvoker.executeCommand(colorCommand);
+        this.background.setAttr("lastColor", e.target.value);
+      }
+    });
+
+    //Selection Color
     this.inputs.colorPicker.addEventListener("change", (e) => {
       if (this.selected) {
         const colorCommand = new ColorCommand(
@@ -186,18 +248,6 @@ export class Editor {
     });
 
     //Previews
-    this.inputs.colorPicker.addEventListener("input", (e) => {
-      if (this.selected) {
-        this.selected.fill(e.target.value);
-        this.onGUI();
-      }
-    });
-
-    this.inputs.opacity.addEventListener("input", (e) => {
-      if (this.selected) {
-        this.selected.setOpacity(Number(e.target.value));
-        this.onGUI();
-      }
-    });
+    this.setInputPreviews();
   };
 }

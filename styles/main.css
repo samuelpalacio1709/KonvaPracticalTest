@@ -251,6 +251,9 @@ input:focus {
   margin: 0;
   border-color: transparent;
   background-color: transparent;
+  border: 1px solid var(--dash-lines-color);
+  border-radius: var(--border-radius-third);
+
 
 }
 

@@ -1,6 +1,6 @@
 export const preferences = {
   //canvas
-  defaultBackgroundColor: "white",
+  defaultBackgroundColor: "#ffffff",
   delfaultCanvasSize: { width: 500, height: 500 },
 
   //transformer tool
@@ -19,9 +19,9 @@ export const preferences = {
   rectDeafult: {
     width: 200,
     height: 200,
-    fill: "#FF0000",
+    fill: "#ff0000",
     opacity: 1,
-    stroke: "black",
+    stroke: "#000000",
     strokeWidth: 4,
     draggable: true,
     strokeScaleEnabled: false,
@@ -30,9 +30,9 @@ export const preferences = {
   circleDefault: {
     width: 200,
     height: 200,
-    fill: "red",
+    fill: "#ff0000",
     opacity: 1,
-    stroke: "black",
+    stroke: "#000000",
     strokeWidth: 4,
     draggable: true,
     strokeScaleEnabled: false,

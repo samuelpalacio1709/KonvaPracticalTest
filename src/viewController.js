@@ -1,17 +1,13 @@
 export class ViewController {
-  constructor(inputs) {
-    this.inputs = inputs;
+  constructor(editor) {
+    this.editor = editor;
   }
 
-  updateView = (editor) => {
-    console.log(editor.selected);
-    if (editor.selected) {
-      this.hide(this.inputs.canvasEditorGUI);
-      this.show(this.inputs.figureEditorGUI);
-      this.inputs.colorPickerText.value = editor.selected.getFill();
+  updateView = () => {
+    if (this.editor.selected) {
+      this.showSelectionGUI(this.editor);
     } else {
-      this.show(this.inputs.canvasEditorGUI);
-      this.hide(this.inputs.figureEditorGUI);
+      this.showCanvasGUI(this.editor);
     }
   };
 
@@ -22,4 +18,26 @@ export class ViewController {
   show = (element) => {
     element.classList.remove("hide");
   };
+
+  showCanvasGUI(editor) {
+    const inputs = editor.inputs;
+
+    inputs.widthCanvas.value = editor.stage.getWidth();
+    inputs.heightCanvas.value = editor.stage.getHeight();
+    inputs.colorPickerCanvas.value = editor.background.getFill();
+    inputs.colorPickerTextCanvas.value = editor.background.getFill();
+    inputs;
+    this.show(inputs.canvasEditorGUI);
+    this.hide(inputs.figureEditorGUI);
+  }
+
+  showSelectionGUI(editor) {
+    const inputs = editor.inputs;
+
+    inputs.colorPickerText.value = editor.selected.getFill();
+    inputs.colorPicker.value = editor.selected.getFill();
+
+    this.hide(inputs.canvasEditorGUI);
+    this.show(inputs.figureEditorGUI);
+  }
 }

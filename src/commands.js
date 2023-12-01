@@ -88,3 +88,39 @@ export class OpacityCommand extends Command {
     this.figure.setAttr("lastOpacity", this.lastOpacity);
   };
 }
+
+export class CanvasResizeCommand extends Command {
+  constructor(stage, background, newValue, type) {
+    super();
+    this.stage = stage;
+    this.background = background;
+    this.newValue = Number(newValue);
+    this.type = type;
+    this.lastSizes = {
+      width: stage.width(),
+      height: stage.height(),
+    };
+  }
+
+  execute = () => {
+    if (this.type == "width") {
+      this.stage.width(this.newValue);
+      this.background.width(this.newValue);
+    }
+    if (this.type == "height") {
+      this.stage.height(this.newValue);
+      this.background.height(this.newValue);
+    }
+  };
+
+  undo = () => {
+    if (this.type == "width") {
+      this.stage.width(this.lastSizes.width);
+      this.background.width(this.lastSizes.width);
+    }
+    if (this.type == "height") {
+      this.stage.height(this.lastSizes.height);
+      this.background.height(this.lastSizes.height);
+    }
+  };
+}
