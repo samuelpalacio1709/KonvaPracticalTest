@@ -1,11 +1,6 @@
 import * as Konva from "Konva";
 import { preferences } from "./preferences.js";
-import {
-  CommandInvoker,
-  ColorCommand,
-  OpacityCommand,
-  CanvasResizeCommand,
-} from "./commands.js";
+import Command from "./commands.js";
 import Stats from "stats-js";
 import { ViewController } from "./viewController.js";
 
@@ -29,7 +24,7 @@ export class Editor {
       listening: false,
     });
 
-    this.commandInvoker = new CommandInvoker();
+    this.commandInvoker = new Command.CommandInvoker();
     this.viewController = new ViewController(this);
     this.init();
   }
@@ -40,6 +35,7 @@ export class Editor {
     this.onGUI = () => document.dispatchEvent(this.guiEvent);
 
     //Events laucnhed when a property has changed!
+    document.addEventListener("command", this.updateCanvas);
     document.addEventListener("command", this.updateGuiView);
     document.addEventListener("gui", this.updateGuiView);
 
@@ -70,38 +66,16 @@ export class Editor {
   };
 
   createFigure(name) {
-    let figure = null;
+    const figureCommand = new Command.FigureCommand(
+      this.stage,
+      this.mainLayer,
+      name
+    );
+    this.commandInvoker.executeCommand(figureCommand);
 
-    switch (name) {
-      case "circle":
-        figure = new Konva.Circle({
-          ...preferences.circleDefault,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
-        });
-        break;
-
-      case "square":
-        figure = new Konva.Rect({
-          ...preferences.rectDeafult,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
-          offset: {
-            x: preferences.rectDeafult.width / 2,
-            y: preferences.rectDeafult.height / 2,
-          },
-        });
-        break;
-    }
-
-    if (figure !== null) this.addFigureToLayer(figure);
+    this.transformer.nodes([figureCommand.figure]);
+    this.setUpFigure(figureCommand.figure);
   }
-
-  addFigureToLayer = (figure) => {
-    this.transformer.nodes([figure]);
-    this.mainLayer.add(figure);
-    this.setUpFigure(figure);
-  };
 
   onClick = (event) => {
     if (event.target === this.stage) {
@@ -166,6 +140,11 @@ export class Editor {
   updateGuiView = () => {
     this.viewController.updateView();
   };
+  updateCanvas = () => {
+    this.transformer?.nodes(
+      this.transformer.nodes().filter((node) => node.getStage() != null)
+    );
+  };
 
   setInputPreviews = () => {
     this.inputs.colorPicker.addEventListener("input", (e) => {
@@ -193,7 +172,7 @@ export class Editor {
   handleInputs = () => {
     //Canvas width and height
     this.inputs.widthCanvas.addEventListener("change", (e) => {
-      const resizeCommand = new CanvasResizeCommand(
+      const resizeCommand = new Command.CanvasResizeCommand(
         this.stage,
         this.background,
         e.target.value,
@@ -202,7 +181,7 @@ export class Editor {
       this.commandInvoker.executeCommand(resizeCommand);
     });
     this.inputs.heightCanvas.addEventListener("change", (e) => {
-      const resizeCommand = new CanvasResizeCommand(
+      const resizeCommand = new Command.CanvasResizeCommand(
         this.stage,
         this.background,
         e.target.value,
@@ -214,7 +193,7 @@ export class Editor {
     //Background Color
     this.inputs.colorPickerCanvas.addEventListener("change", (e) => {
       if (this.background) {
-        const colorCommand = new ColorCommand(
+        const colorCommand = new Command.ColorCommand(
           this.background,
           this.inputs.colorPickerCanvas
         );
@@ -226,7 +205,7 @@ export class Editor {
     //Selection Color
     this.inputs.colorPicker.addEventListener("change", (e) => {
       if (this.selected) {
-        const colorCommand = new ColorCommand(
+        const colorCommand = new Command.ColorCommand(
           this.selected,
           this.inputs.colorPicker
         );
@@ -238,13 +217,32 @@ export class Editor {
     //Opacity
     this.inputs.opacity.addEventListener("change", (e) => {
       if (this.selected) {
-        const colorCommand = new OpacityCommand(
+        const colorCommand = new Command.OpacityCommand(
           this.selected,
           this.inputs.opacity
         );
         this.commandInvoker.executeCommand(colorCommand);
         this.selected.setAttr("lastOpacity", e.target.value);
       }
+    });
+
+    //Delete
+
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key.toLowerCase() == "delete" ||
+        e.key.toLowerCase() == "backspace"
+      ) {
+        if (this.selected) {
+          const deleteFigureCommand = new Command.DeleteCommand(
+            this.selected,
+            this.mainLayer
+          );
+          this.commandInvoker.executeCommand(deleteFigureCommand);
+          this.selected = null;
+        }
+      }
+      this.onGUI();
     });
 
     //Previews

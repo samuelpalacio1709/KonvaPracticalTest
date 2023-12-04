@@ -1,4 +1,7 @@
-export class CommandInvoker {
+import { preferences } from "./preferences";
+import * as Konva from "Konva";
+
+class CommandInvoker {
   constructor() {
     this.history = [];
     this.redoHistory = [];
@@ -52,7 +55,68 @@ class Command {
 
 //Change the color of the selected figure in the editor
 
-export class ColorCommand extends Command {
+class FigureCommand extends Command {
+  constructor(stage, layer, name) {
+    super();
+    this.stage = stage;
+    this.layer = layer;
+    this.name = name;
+    this.figure = this.createFigure(name);
+    this.layer = layer;
+  }
+
+  execute = () => {
+    this.layer.add(this.figure);
+  };
+
+  undo = () => {
+    this.figure.remove();
+  };
+
+  createFigure() {
+    let figure = null;
+    switch (this.name) {
+      case "circle":
+        figure = new Konva.Circle({
+          ...preferences.circleDefault,
+          x: this.stage.width() / 2,
+          y: this.stage.height() / 2,
+        });
+        break;
+
+      case "square":
+        figure = new Konva.Rect({
+          ...preferences.rectDeafult,
+          x: this.stage.width() / 2,
+          y: this.stage.height() / 2,
+          offset: {
+            x: preferences.rectDeafult.width / 2,
+            y: preferences.rectDeafult.height / 2,
+          },
+        });
+        break;
+    }
+    return figure;
+  }
+}
+
+class DeleteCommand extends Command {
+  constructor(figure, layer) {
+    super();
+    this.figure = figure;
+    this.layer = layer;
+  }
+
+  execute = () => {
+    this.figure.remove();
+  };
+
+  undo = () => {
+    this.layer.add(this.figure);
+  };
+}
+
+class ColorCommand extends Command {
   constructor(figure, input) {
     super();
     this.figure = figure;
@@ -71,7 +135,7 @@ export class ColorCommand extends Command {
   };
 }
 
-export class OpacityCommand extends Command {
+class OpacityCommand extends Command {
   constructor(figure, input) {
     super();
     this.figure = figure;
@@ -89,7 +153,7 @@ export class OpacityCommand extends Command {
   };
 }
 
-export class CanvasResizeCommand extends Command {
+class CanvasResizeCommand extends Command {
   constructor(stage, background, newValue, type) {
     super();
     this.stage = stage;
@@ -124,3 +188,11 @@ export class CanvasResizeCommand extends Command {
     }
   };
 }
+export default {
+  CommandInvoker,
+  FigureCommand,
+  ColorCommand,
+  CanvasResizeCommand,
+  OpacityCommand,
+  DeleteCommand,
+};
