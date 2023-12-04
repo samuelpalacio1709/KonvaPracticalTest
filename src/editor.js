@@ -1,7 +1,6 @@
 import * as Konva from "Konva";
 import { preferences } from "./preferences.js";
 import Command from "./commands.js";
-import Stats from "stats-js";
 import { ViewController } from "./viewController.js";
 
 export class Editor {
@@ -30,18 +29,14 @@ export class Editor {
   }
 
   init = () => {
-    //Events to trigger GUI changes
-    this.guiEvent = new CustomEvent("gui");
-    this.onGUI = () => document.dispatchEvent(this.guiEvent);
-
-    //Events laucnhed when a property has changed!
-    document.addEventListener("command", this.updateCanvas);
-    document.addEventListener("command", this.updateGuiView);
-    document.addEventListener("gui", this.updateGuiView);
+    //Event launched when a property has changed
+    document.addEventListener("command", () => {
+      this.updateCanvas();
+      this.updateGuiView();
+    });
 
     //subscribe to stage events
     this.stage.on("click tap", this.onClick);
-    this.stage.on("wheel", this.onWheel);
 
     //Handle layers
     this.stage.add(this.mainLayer);
@@ -52,11 +47,14 @@ export class Editor {
     this.setCanvasConfig();
     this.setFigures();
     this.handleInputs();
+    this.handleInputPreviews();
     this.updateGuiView();
   };
+
   setCanvasConfig = () => {
     this.background.setAttr("lastColor", preferences.defaultBackgroundColor);
   };
+
   setFigures = () => {
     this.inputs.figures.forEach((figure) => {
       figure.addEventListener("click", () => {
@@ -89,52 +87,16 @@ export class Editor {
       this.transformer.nodes([event.target]);
     }
   };
-  onWheel = (event) => {
-    var scaleBy = 1.01;
-
-    const oldScale = this.stage.scaleX();
-    const pointer = this.stage.getPointerPosition();
-    var mousePointTo = {
-      x: (pointer.x - this.stage.x()) / oldScale,
-      y: (pointer.y - this.stage.y()) / oldScale,
-    };
-
-    let direction = event.evt.deltaY > 0 ? 1 : -1;
-    if (event.evt.ctrlKey) {
-      direction = -direction;
-    }
-
-    const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
-    this.stage.scale({ x: newScale, y: newScale });
-
-    const newPos = {
-      x: pointer.x - mousePointTo.x * newScale,
-      y: pointer.y - mousePointTo.y * newScale,
-    };
-    this.stage.position(newPos);
-  };
-
-  showPerformanceFPS = () => {
-    const stats = new Stats();
-    document.body.appendChild(stats.domElement);
-    const updateStats = () => {
-      stats.begin();
-      requestAnimationFrame(updateStats);
-      stats.end();
-    };
-    window.requestAnimationFrame(updateStats);
-  };
 
   changeSelection = (newSelection) => {
     this.selected = newSelection;
-    this.onGUI();
+    this.updateGuiView();
   };
 
   setUpFigure = (figure) => {
-    this.selected = figure;
+    this.changeSelection(figure);
     this.selected.setAttr("lastColor", figure.getFill());
     this.selected.setAttr("lastOpacity", figure.getOpacity());
-    this.onGUI();
   };
 
   updateGuiView = () => {
@@ -144,108 +106,118 @@ export class Editor {
     this.transformer?.nodes(
       this.transformer.nodes().filter((node) => node.getStage() != null)
     );
+    if (this.selected?.getStage() == null) {
+      this.selected = null;
+    }
+  };
+  hasSelection = () => {
+    return this.transformer.nodes().filter((node) => node.getStage() != null);
   };
 
-  setInputPreviews = () => {
+  handleInputChange = (command) => {
+    if (command) {
+      this.commandInvoker.executeCommand(command);
+    }
+    this.updateGuiView();
+  };
+
+  handleCanvasResize = (target, dimension) => {
+    const resizeCommand = new Command.CanvasResizeCommand(
+      this.stage,
+      this.background,
+      target.value,
+      dimension
+    );
+    this.handleInputChange(resizeCommand);
+  };
+
+  handleColorPickerChange = (input, targetObject) => {
+    if (targetObject) {
+      const colorCommand = new Command.ColorCommand(targetObject, input);
+      this.commandInvoker.executeCommand(colorCommand);
+      targetObject.setAttr("lastColor", input.value);
+    }
+  };
+
+  handleOpacityChange = (input, targetObject) => {
+    if (targetObject) {
+      const opacityCommand = new Command.OpacityCommand(targetObject, input);
+      this.handleInputChange(opacityCommand);
+      this.selected.setAttr("lastOpacity", input.value);
+    }
+  };
+
+  handleDelete = (e) => {
+    if (e.key.toLowerCase() == "delete" || e.key.toLowerCase() == "backspace") {
+      if (this.selected) {
+        const deleteFigureCommand = new Command.DeleteCommand(
+          this.selected,
+          this.mainLayer
+        );
+        this.handleInputChange(deleteFigureCommand);
+        this.changeSelection(null);
+      }
+    }
+  };
+
+  //Set the changes to the editor
+
+  handleInputs = () => {
+    //Canvas resize
+
+    this.inputs.widthCanvas.addEventListener("change", (e) => {
+      this.handleCanvasResize(e.target, "width");
+    });
+
+    this.inputs.heightCanvas.addEventListener("change", (e) => {
+      this.handleCanvasResize(e.target, "height");
+    });
+
+    //Background Color
+    this.inputs.colorPickerCanvas.addEventListener("change", () => {
+      this.handleColorPickerChange(
+        this.inputs.colorPickerCanvas,
+        this.background
+      );
+    });
+
+    //Selection Color
+    this.inputs.colorPicker.addEventListener("change", () => {
+      this.handleColorPickerChange(this.inputs.colorPicker, this.selected);
+    });
+
+    //Opacity
+    this.inputs.opacity.addEventListener("change", () => {
+      this.handleOpacityChange(this.inputs.opacity, this.selected);
+    });
+
+    //Delete
+    document.addEventListener("keydown", (e) => {
+      this.handleDelete(e);
+    });
+  };
+
+  //Show the changes while the user is playing with the inputs
+  handleInputPreviews = () => {
     this.inputs.colorPicker.addEventListener("input", (e) => {
       if (this.selected) {
         this.selected.fill(e.target.value);
-        this.onGUI();
+        this.handleInputChange();
       }
     });
 
     this.inputs.opacity.addEventListener("input", (e) => {
       if (this.selected) {
         this.selected.setOpacity(Number(e.target.value));
-        this.onGUI();
+        this.handleInputChange();
       }
     });
 
     this.inputs.colorPickerCanvas.addEventListener("input", (e) => {
       if (this.background) {
         this.background.fill(e.target.value);
-        this.onGUI();
+        this.handleInputChange();
       }
     });
-  };
-
-  handleInputs = () => {
-    //Canvas width and height
-    this.inputs.widthCanvas.addEventListener("change", (e) => {
-      const resizeCommand = new Command.CanvasResizeCommand(
-        this.stage,
-        this.background,
-        e.target.value,
-        "width"
-      );
-      this.commandInvoker.executeCommand(resizeCommand);
-    });
-    this.inputs.heightCanvas.addEventListener("change", (e) => {
-      const resizeCommand = new Command.CanvasResizeCommand(
-        this.stage,
-        this.background,
-        e.target.value,
-        "height"
-      );
-      this.commandInvoker.executeCommand(resizeCommand);
-    });
-
-    //Background Color
-    this.inputs.colorPickerCanvas.addEventListener("change", (e) => {
-      if (this.background) {
-        const colorCommand = new Command.ColorCommand(
-          this.background,
-          this.inputs.colorPickerCanvas
-        );
-        this.commandInvoker.executeCommand(colorCommand);
-        this.background.setAttr("lastColor", e.target.value);
-      }
-    });
-
-    //Selection Color
-    this.inputs.colorPicker.addEventListener("change", (e) => {
-      if (this.selected) {
-        const colorCommand = new Command.ColorCommand(
-          this.selected,
-          this.inputs.colorPicker
-        );
-        this.commandInvoker.executeCommand(colorCommand);
-        this.selected.setAttr("lastColor", e.target.value);
-      }
-    });
-
-    //Opacity
-    this.inputs.opacity.addEventListener("change", (e) => {
-      if (this.selected) {
-        const colorCommand = new Command.OpacityCommand(
-          this.selected,
-          this.inputs.opacity
-        );
-        this.commandInvoker.executeCommand(colorCommand);
-        this.selected.setAttr("lastOpacity", e.target.value);
-      }
-    });
-
-    //Delete
-
-    document.addEventListener("keydown", (e) => {
-      if (
-        e.key.toLowerCase() == "delete" ||
-        e.key.toLowerCase() == "backspace"
-      ) {
-        if (this.selected) {
-          const deleteFigureCommand = new Command.DeleteCommand(
-            this.selected,
-            this.mainLayer
-          );
-          this.commandInvoker.executeCommand(deleteFigureCommand);
-          this.selected = null;
-        }
-      }
-      this.onGUI();
-    });
-
-    //Previews
-    this.setInputPreviews();
   };
 }

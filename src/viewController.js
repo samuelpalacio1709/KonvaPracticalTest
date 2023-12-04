@@ -36,7 +36,7 @@ export class ViewController {
 
     inputs.colorPickerText.value = editor.selected.getFill();
     inputs.colorPicker.value = editor.selected.getFill();
-
+    inputs.opacity.value = editor.selected.getOpacity();
     this.hide(inputs.canvasEditorGUI);
     this.show(inputs.figureEditorGUI);
   }
