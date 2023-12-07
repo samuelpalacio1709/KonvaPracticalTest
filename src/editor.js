@@ -72,9 +72,29 @@ export class Editor {
       this.mainLayer,
       name
     );
+    figureCommand.figure.on("dragstart", () => {
+      figureCommand.figure.setAttr(
+        "lastPosition",
+        figureCommand.figure.position()
+      );
+    });
+
+    figureCommand.figure.on("dragmove", () => {
+      this.updateGuiView();
+    });
+
+    figureCommand.figure.on("dragend", () => {
+      this.moveFigure(figureCommand.figure);
+    });
+
     this.commandInvoker.executeCommand(figureCommand);
     this.transformer.nodes([figureCommand.figure]);
     this.setUpFigure(figureCommand.figure);
+  }
+
+  moveFigure(figure) {
+    const movementCommand = new Command.MovementCommand(figure);
+    this.handleInputChange(movementCommand);
   }
 
   onClick = (event) => {
@@ -98,7 +118,9 @@ export class Editor {
   setUpFigure = (figure) => {
     this.changeSelection(figure);
     this.selected.setAttr("lastColor", figure.getFill());
+    this.selected.setAttr("lastBorderColor", figure.stroke());
     this.selected.setAttr("lastOpacity", figure.getOpacity());
+    console.log(figure.stroke());
   };
 
   updateGuiView = () => {
@@ -144,14 +166,39 @@ export class Editor {
 
   handleOpacityChange = (input, targetObject) => {
     if (targetObject) {
+      if (input.value < 0 || input.value > 100) return;
+
       const opacityCommand = new Command.OpacityCommand(targetObject, input);
       this.handleInputChange(opacityCommand);
-      this.selected.setAttr("lastOpacity", input.value);
+      this.selected.setAttr(
+        "lastOpacity",
+        input.value < 1 ? input.value : input.value / 100
+      );
+    }
+  };
+  handleColorBorderPickerChange = (input, targetObject) => {
+    if (targetObject) {
+      const borderColorCommand = new Command.ColorBorderCommand(
+        targetObject,
+        input
+      );
+      this.handleInputChange(borderColorCommand);
+
+      targetObject.setAttr("lastBorderColor", input.value);
     }
   };
 
+  handleBorderSizeChange = (input, targetObject) => {
+    if (targetObject) {
+      const borderSizeCommand = new Command.BorderSizeCommand(
+        targetObject,
+        input
+      );
+      this.handleInputChange(borderSizeCommand);
+    }
+  };
   handleDelete = (e) => {
-    if (e.key.toLowerCase() == "delete" || e.key.toLowerCase() == "backspace") {
+    if (e.key.toLowerCase() == "delete") {
       if (this.selected) {
         const deleteFigureCommand = new Command.DeleteCommand(
           this.selected,
@@ -184,14 +231,38 @@ export class Editor {
       );
     });
 
+    this.inputs.colorPickerTextCanvas.addEventListener("change", () => {
+      this.handleColorPickerChange(
+        this.inputs.colorPickerTextCanvas,
+        this.background
+      );
+    });
+
     //Selection Color
     this.inputs.colorPicker.addEventListener("change", () => {
       this.handleColorPickerChange(this.inputs.colorPicker, this.selected);
+    });
+    this.inputs.colorPickerText.addEventListener("change", () => {
+      this.handleColorPickerChange(this.inputs.colorPickerText, this.selected);
     });
 
     //Opacity
     this.inputs.opacity.addEventListener("change", () => {
       this.handleOpacityChange(this.inputs.opacity, this.selected);
+    });
+    this.inputs.opacityText.addEventListener("change", () => {
+      this.handleOpacityChange(this.inputs.opacityText, this.selected);
+    });
+
+    //Border
+    this.inputs.borderColorPicker.addEventListener("change", () => {
+      this.handleColorBorderPickerChange(
+        this.inputs.borderColorPicker,
+        this.selected
+      );
+    });
+    this.inputs.borderSize.addEventListener("change", () => {
+      this.handleBorderSizeChange(this.inputs.borderSize, this.selected);
     });
 
     //Delete
@@ -219,6 +290,13 @@ export class Editor {
     this.inputs.colorPickerCanvas.addEventListener("input", (e) => {
       if (this.background) {
         this.background.fill(e.target.value);
+        this.handleInputChange();
+      }
+    });
+
+    this.inputs.borderColorPicker.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.stroke(e.target.value);
         this.handleInputChange();
       }
     });

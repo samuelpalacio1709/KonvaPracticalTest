@@ -1,6 +1,6 @@
 import { preferences } from "./preferences";
 import * as Konva from "Konva";
-
+import { drawHeart } from "./shapeDrawer";
 class CommandInvoker {
   constructor() {
     this.history = [];
@@ -111,64 +111,14 @@ class FigureCommand extends Command {
             x: preferences.heartDeafult.width / 2,
             y: preferences.heartDeafult.height / 2,
           },
-          // a Konva.Canvas renderer is passed into the sceneFunc function
           sceneFunc(context, shape) {
-            context.beginPath();
-
-            const width = shape.getAttr("width");
-            const height = shape.getAttr("height");
-            const offset = 28;
-
-            const bezier1 = {
-              x: width - width / 6,
-              y: -height / 4,
-            };
-
-            const bezier2 = {
-              x: width + width / 6,
-              y: height / 4,
-            };
-
-            const bezier3 = {
-              x: width / 6,
-              y: -height / 4,
-            };
-
-            const bezier4 = {
-              x: -width / 6,
-              y: height / 4,
-            };
-
-            context.moveTo(width / 2, offset);
-            context.bezierCurveTo(
-              bezier1.x,
-              bezier1.y,
-              bezier2.x,
-              bezier2.y,
-              width - offset / 2,
-              height / 2
-            );
-
-            context.lineTo(width / 2, height);
-            context.lineTo(offset / 2, height / 2);
-
-            context.bezierCurveTo(
-              bezier4.x,
-              bezier4.y,
-              bezier3.x,
-              bezier3.y,
-              width / 2,
-              offset
-            );
-
-            context.closePath();
-            context.fill();
-            context.fillStrokeShape(shape);
+            //Draw the heart using context bezierCurveTo, found out later it can be done with a simple SVG image!
+            drawHeart(context, shape);
           },
         });
-
         break;
     }
+
     return figure;
   }
 }
@@ -212,7 +162,7 @@ class OpacityCommand extends Command {
   constructor(figure, input) {
     super();
     this.figure = figure;
-    this.opacity = input.value;
+    this.opacity = input.value < 1 ? input.value : input.value / 100;
     this.lastOpacity = figure.getAttr("lastOpacity");
   }
 
@@ -223,6 +173,60 @@ class OpacityCommand extends Command {
   undo = () => {
     this.figure.setOpacity(Number(this.lastOpacity));
     this.figure.setAttr("lastOpacity", this.lastOpacity);
+  };
+}
+
+class ColorBorderCommand extends Command {
+  constructor(figure, input) {
+    super();
+    this.figure = figure;
+    this.lastColor = figure.getFill();
+    this.color = input.value;
+    this.lastColor = figure.getAttr("lastBorderColor");
+  }
+
+  execute = () => {
+    this.figure.stroke(this.color);
+  };
+
+  undo = () => {
+    this.figure.stroke(this.lastColor);
+    this.figure.setAttr("lastBorderColor", this.lastColor);
+  };
+}
+
+class BorderSizeCommand extends Command {
+  constructor(figure, input) {
+    super();
+    console.log(input.value);
+    this.figure = figure;
+    this.lastBorder = Number(figure.strokeWidth());
+    this.border = Number(input.value);
+  }
+
+  execute = () => {
+    this.figure.strokeWidth(this.border);
+  };
+
+  undo = () => {
+    this.figure.strokeWidth(this.lastBorder);
+  };
+}
+
+class MovementCommand extends Command {
+  constructor(figure) {
+    super();
+    this.figure = figure;
+    this.lastPos = figure.getAttr("lastPosition");
+    this.position = figure.position();
+  }
+
+  execute = () => {
+    this.figure.position(this.position);
+  };
+
+  undo = () => {
+    this.figure.position(this.lastPos);
   };
 }
 
@@ -268,4 +272,7 @@ export default {
   CanvasResizeCommand,
   OpacityCommand,
   DeleteCommand,
+  MovementCommand,
+  ColorBorderCommand,
+  BorderSizeCommand,
 };

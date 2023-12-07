@@ -26,17 +26,23 @@ export class ViewController {
     inputs.heightCanvas.value = editor.stage.getHeight();
     inputs.colorPickerCanvas.value = editor.background.getFill();
     inputs.colorPickerTextCanvas.value = editor.background.getFill();
-    inputs;
+
     this.show(inputs.canvasEditorGUI);
     this.hide(inputs.figureEditorGUI);
   }
 
   showSelectionGUI(editor) {
     const inputs = editor.inputs;
-
+    const position = editor.selected.position();
     inputs.colorPickerText.value = editor.selected.getFill();
     inputs.colorPicker.value = editor.selected.getFill();
     inputs.opacity.value = editor.selected.getOpacity();
+    inputs.opacityText.value = Math.round(editor.selected.getOpacity() * 100);
+    inputs.positionX.value = position.x.toFixed(2);
+    inputs.positionY.value = position.y.toFixed(2);
+    inputs.borderSize.value = editor.selected.strokeWidth();
+
+    inputs.borderColorPicker.value = editor.selected.stroke();
     this.hide(inputs.canvasEditorGUI);
     this.show(inputs.figureEditorGUI);
   }
