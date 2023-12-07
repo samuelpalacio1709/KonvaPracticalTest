@@ -19,9 +19,20 @@ export const preferences = {
   rectDeafult: {
     width: 200,
     height: 200,
-    fill: "#ff0000",
+    fill: "#41D5E8",
     opacity: 1,
-    stroke: "#000000",
+    stroke: "##2C8E9C",
+    strokeWidth: 4,
+    draggable: true,
+    strokeScaleEnabled: false,
+  },
+
+  heartDeafult: {
+    width: 220,
+    height: 195,
+    fill: "#41D5E8",
+    opacity: 1,
+    stroke: "#2C8E9C",
     strokeWidth: 4,
     draggable: true,
     strokeScaleEnabled: false,
@@ -30,12 +41,25 @@ export const preferences = {
   circleDefault: {
     width: 200,
     height: 200,
-    fill: "#ff0000",
+    fill: "#41D5E8",
     opacity: 1,
-    stroke: "#000000",
+    stroke: "##2C8E9C",
     strokeWidth: 4,
     draggable: true,
     strokeScaleEnabled: false,
+  },
+
+  triangleDefault: {
+    width: 200,
+    height: 200,
+    fill: "#41D5E8",
+    opacity: 1,
+    stroke: "##2C8E9C",
+    strokeWidth: 4,
+    draggable: true,
+    strokeScaleEnabled: false,
+    sides: 3,
+    radius: 100,
   },
 };
 

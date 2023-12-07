@@ -95,6 +95,79 @@ class FigureCommand extends Command {
           },
         });
         break;
+      case "triangle":
+        figure = new Konva.RegularPolygon({
+          ...preferences.triangleDefault,
+          x: this.stage.width() / 2,
+          y: this.stage.height() / 2,
+        });
+        break;
+      case "heart":
+        figure = new Konva.Shape({
+          ...preferences.heartDeafult,
+          x: this.stage.width() / 2,
+          y: this.stage.height() / 2,
+          offset: {
+            x: preferences.heartDeafult.width / 2,
+            y: preferences.heartDeafult.height / 2,
+          },
+          // a Konva.Canvas renderer is passed into the sceneFunc function
+          sceneFunc(context, shape) {
+            context.beginPath();
+
+            const width = shape.getAttr("width");
+            const height = shape.getAttr("height");
+            const offset = 28;
+
+            const bezier1 = {
+              x: width - width / 6,
+              y: -height / 4,
+            };
+
+            const bezier2 = {
+              x: width + width / 6,
+              y: height / 4,
+            };
+
+            const bezier3 = {
+              x: width / 6,
+              y: -height / 4,
+            };
+
+            const bezier4 = {
+              x: -width / 6,
+              y: height / 4,
+            };
+
+            context.moveTo(width / 2, offset);
+            context.bezierCurveTo(
+              bezier1.x,
+              bezier1.y,
+              bezier2.x,
+              bezier2.y,
+              width - offset / 2,
+              height / 2
+            );
+
+            context.lineTo(width / 2, height);
+            context.lineTo(offset / 2, height / 2);
+
+            context.bezierCurveTo(
+              bezier4.x,
+              bezier4.y,
+              bezier3.x,
+              bezier3.y,
+              width / 2,
+              offset
+            );
+
+            context.closePath();
+            context.fill();
+            context.fillStrokeShape(shape);
+          },
+        });
+
+        break;
     }
     return figure;
   }

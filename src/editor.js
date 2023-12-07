@@ -29,26 +29,29 @@ export class Editor {
   }
 
   init = () => {
-    //Event launched when a property has changed
-    document.addEventListener("command", () => {
-      this.updateCanvas();
-      this.updateGuiView();
-    });
-
-    //subscribe to stage events
-    this.stage.on("click tap", this.onClick);
-
     //Handle layers
     this.stage.add(this.mainLayer);
     this.stage.add(this.transformerLayer);
     this.mainLayer.add(this.background);
     this.transformerLayer.add(this.transformer);
 
+    this.setUpEvents();
     this.setCanvasConfig();
     this.setFigures();
     this.handleInputs();
     this.handleInputPreviews();
     this.updateGuiView();
+  };
+
+  setUpEvents = () => {
+    //subscribe to stage events
+    this.stage.on("click tap", this.onClick);
+
+    //Event launched when a property has changed
+    document.addEventListener("command", () => {
+      this.updateCanvas();
+      this.updateGuiView();
+    });
   };
 
   setCanvasConfig = () => {
@@ -70,7 +73,6 @@ export class Editor {
       name
     );
     this.commandInvoker.executeCommand(figureCommand);
-
     this.transformer.nodes([figureCommand.figure]);
     this.setUpFigure(figureCommand.figure);
   }
@@ -134,7 +136,8 @@ export class Editor {
   handleColorPickerChange = (input, targetObject) => {
     if (targetObject) {
       const colorCommand = new Command.ColorCommand(targetObject, input);
-      this.commandInvoker.executeCommand(colorCommand);
+      this.handleInputChange(colorCommand);
+
       targetObject.setAttr("lastColor", input.value);
     }
   };
