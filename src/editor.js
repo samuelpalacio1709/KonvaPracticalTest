@@ -11,7 +11,7 @@ export class Editor {
     //Konva set up
     this.stage = new Konva.Stage({
       container: "canvas-container",
-      ...preferences.delfaultCanvasSize,
+      ...preferences.defaultCanvasSize,
     });
     this.transformer = new Konva.Transformer(preferences.defaultTransformer);
     this.mainLayer = new Konva.Layer();
@@ -120,6 +120,7 @@ export class Editor {
     this.selected.setAttr("lastColor", figure.getFill());
     this.selected.setAttr("lastBorderColor", figure.stroke());
     this.selected.setAttr("lastOpacity", figure.getOpacity());
+    this.selected.setAttr("lastText", "");
     console.log(figure.stroke());
   };
 
@@ -183,7 +184,6 @@ export class Editor {
         input
       );
       this.handleInputChange(borderColorCommand);
-
       targetObject.setAttr("lastBorderColor", input.value);
     }
   };
@@ -207,6 +207,14 @@ export class Editor {
         this.handleInputChange(deleteFigureCommand);
         this.changeSelection(null);
       }
+    }
+  };
+
+  handleTextChange = (input, targetObject) => {
+    if (targetObject) {
+      const TextCommand = new Command.TextCommand(targetObject, input);
+      this.handleInputChange(TextCommand);
+      targetObject.setAttr("lastText", input.value);
     }
   };
 
@@ -263,6 +271,18 @@ export class Editor {
     });
     this.inputs.borderSize.addEventListener("change", () => {
       this.handleBorderSizeChange(this.inputs.borderSize, this.selected);
+    });
+
+    //Text
+
+    this.inputs.text.addEventListener("change", () => {
+      this.handleTextChange(this.inputs.text, this.selected);
+    });
+
+    this.inputs.text.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.setAttr("text", e.target.value);
+      }
     });
 
     //Delete

@@ -9,6 +9,7 @@ const inputs = {
   sizeHeight: document.querySelector("#height"),
   colorPicker: document.querySelector("#color-picker"),
   borderColorPicker: document.querySelector("#border-color"),
+  text: document.querySelector("#text"),
   borderSize: document.querySelector("#border-value"),
   colorPickerText: document.querySelector("#color-picker-text"),
   opacity: document.querySelector("#opacity-range"),

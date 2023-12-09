@@ -1,6 +1,6 @@
 import { preferences } from "./preferences";
 import * as Konva from "Konva";
-import { drawHeart } from "./shapeDrawer";
+import { drawHeart, drawRect, drawTriangle, drawCircle } from "./shapeDrawer";
 class CommandInvoker {
   constructor() {
     this.history = [];
@@ -75,20 +75,33 @@ class FigureCommand extends Command {
 
   createFigure() {
     let figure = null;
+    const defaultFigurePosition = {
+      x: this.stage.width() / 2,
+      y: this.stage.height() / 2,
+    };
+
     switch (this.name) {
       case "circle":
-        figure = new Konva.Circle({
+        figure = new Konva.Shape({
           ...preferences.circleDefault,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
+          ...defaultFigurePosition,
+          sceneFunc(context, shape) {
+            drawCircle(context, shape);
+          },
+          offset: {
+            x: preferences.circleDefault.width / 2,
+            y: preferences.circleDefault.height / 2,
+          },
         });
         break;
 
       case "square":
-        figure = new Konva.Rect({
+        figure = new Konva.Shape({
           ...preferences.rectDeafult,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
+          ...defaultFigurePosition,
+          sceneFunc(context, shape) {
+            drawRect(context, shape);
+          },
           offset: {
             x: preferences.rectDeafult.width / 2,
             y: preferences.rectDeafult.height / 2,
@@ -96,24 +109,28 @@ class FigureCommand extends Command {
         });
         break;
       case "triangle":
-        figure = new Konva.RegularPolygon({
+        figure = new Konva.Shape({
           ...preferences.triangleDefault,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
+          ...defaultFigurePosition,
+          sceneFunc(context, shape) {
+            drawTriangle(context, shape);
+          },
+          offset: {
+            x: preferences.rectDeafult.width / 2,
+            y: preferences.rectDeafult.height / 2,
+          },
         });
         break;
       case "heart":
         figure = new Konva.Shape({
           ...preferences.heartDeafult,
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
+          ...defaultFigurePosition,
+          sceneFunc(context, shape) {
+            drawHeart(context, shape);
+          },
           offset: {
             x: preferences.heartDeafult.width / 2,
             y: preferences.heartDeafult.height / 2,
-          },
-          sceneFunc(context, shape) {
-            //Draw the heart using context bezierCurveTo, found out later it can be done with a simple SVG image!
-            drawHeart(context, shape);
           },
         });
         break;
@@ -176,11 +193,28 @@ class OpacityCommand extends Command {
   };
 }
 
+class TextCommand extends Command {
+  constructor(figure, input) {
+    super();
+    this.figure = figure;
+    this.text = input.value;
+    this.lastText = figure.getAttr("lastText");
+  }
+
+  execute = () => {
+    this.figure.setAttr("text", this.text);
+  };
+
+  undo = () => {
+    this.figure.setAttr("text", this.lastText);
+    this.figure.setAttr("lastText", this.lastText);
+  };
+}
+
 class ColorBorderCommand extends Command {
   constructor(figure, input) {
     super();
     this.figure = figure;
-    this.lastColor = figure.getFill();
     this.color = input.value;
     this.lastColor = figure.getAttr("lastBorderColor");
   }
@@ -275,4 +309,5 @@ export default {
   MovementCommand,
   ColorBorderCommand,
   BorderSizeCommand,
+  TextCommand,
 };

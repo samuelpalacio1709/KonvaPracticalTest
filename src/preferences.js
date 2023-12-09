@@ -1,8 +1,8 @@
 export const preferences = {
   //canvas
   defaultBackgroundColor: "#ffffff",
-  delfaultCanvasSize: { width: 500, height: 500 },
-
+  defaultCanvasSize: { width: 500, height: 500 },
+  defaultFigureText: "bold 24px Nanum Gothic",
   //transformer tool
   defaultTransformer: {
     anchorStroke: "#CEE36E",
@@ -14,8 +14,9 @@ export const preferences = {
     padding: 3,
     rotateAnchorOffset: 20,
   },
-
   //shapes
+  defaultTextColor: "#000000",
+
   rectDeafult: {
     width: 200,
     height: 200,
