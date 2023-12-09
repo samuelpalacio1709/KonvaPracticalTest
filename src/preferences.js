@@ -14,6 +14,10 @@ export const preferences = {
     padding: 3,
     rotateAnchorOffset: 20,
   },
+
+  defaultSelectorStroke: "#CEE36E",
+  defaultSelectorFill: "rgba(207, 255, 219,0.3)",
+
   //shapes
   defaultTextColor: "#000000",
 

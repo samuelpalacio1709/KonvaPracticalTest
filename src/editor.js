@@ -2,7 +2,7 @@ import * as Konva from "Konva";
 import { preferences } from "./preferences.js";
 import Command from "./commands.js";
 import { ViewController } from "./viewController.js";
-
+import { createMultiselector } from "./multiselector.js";
 export class Editor {
   constructor(inputs) {
     this.inputs = inputs;
@@ -38,9 +38,14 @@ export class Editor {
     this.setUpEvents();
     this.setCanvasConfig();
     this.setFigures();
+    this.setUpMultiselector();
     this.handleInputs();
     this.handleInputPreviews();
     this.updateGuiView();
+  };
+
+  setUpMultiselector = () => {
+    createMultiselector(this);
   };
 
   setUpEvents = () => {
@@ -72,6 +77,7 @@ export class Editor {
       this.mainLayer,
       name
     );
+    figureCommand.figure.name("figure");
     figureCommand.figure.on("dragstart", () => {
       figureCommand.figure.setAttr(
         "lastPosition",
@@ -89,6 +95,7 @@ export class Editor {
 
     this.commandInvoker.executeCommand(figureCommand);
     this.transformer.nodes([figureCommand.figure]);
+
     this.setUpFigure(figureCommand.figure);
   }
 
@@ -100,13 +107,11 @@ export class Editor {
   onClick = (event) => {
     if (event.target === this.stage) {
       this.changeSelection(null);
-      this.transformer.nodes([]);
       return;
     }
 
     if (event.target) {
       this.changeSelection(event.target);
-      this.transformer.nodes([event.target]);
     }
   };
 

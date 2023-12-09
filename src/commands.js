@@ -78,6 +78,7 @@ class FigureCommand extends Command {
     const defaultFigurePosition = {
       x: this.stage.width() / 2,
       y: this.stage.height() / 2,
+      name: "rect",
     };
 
     switch (this.name) {
