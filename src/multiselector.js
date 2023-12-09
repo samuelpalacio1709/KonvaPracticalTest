@@ -102,6 +102,10 @@ export const createMultiselector = (editor) => {
       const nodes = tr.nodes().concat([e.target]);
       tr.nodes(nodes);
     }
+
+    if (tr.nodes().length > 1) {
+      editor.changeSelection(null);
+    }
   });
 
   const resetSelection = () => {

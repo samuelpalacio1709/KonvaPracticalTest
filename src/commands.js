@@ -142,18 +142,22 @@ class FigureCommand extends Command {
 }
 
 class DeleteCommand extends Command {
-  constructor(figure, layer) {
+  constructor(figures, layer) {
     super();
-    this.figure = figure;
+    this.figures = figures;
     this.layer = layer;
   }
 
   execute = () => {
-    this.figure.remove();
+    for (let i = 0; i < this.figures.length; i++) {
+      this.figures[i].remove();
+    }
   };
 
   undo = () => {
-    this.layer.add(this.figure);
+    for (let i = 0; i < this.figures.length; i++) {
+      this.layer.add(this.figures[i]);
+    }
   };
 }
 
@@ -249,19 +253,23 @@ class BorderSizeCommand extends Command {
 }
 
 class MovementCommand extends Command {
-  constructor(figure) {
+  constructor(figures) {
     super();
-    this.figure = figure;
-    this.lastPos = figure.getAttr("lastPosition");
-    this.position = figure.position();
+    this.figures = figures;
+    this.lastPostions = figures.map((figure) => figure.getAttr("lastPosition"));
+    this.positions = figures.map((figure) => figure.position());
   }
 
   execute = () => {
-    this.figure.position(this.position);
+    for (let i = 0; i < this.figures.length; i++) {
+      this.figures[i].position(this.positions[i]);
+    }
   };
 
   undo = () => {
-    this.figure.position(this.lastPos);
+    for (let i = 0; i < this.figures.length; i++) {
+      this.figures[i].position(this.lastPostions[i]);
+    }
   };
 }
 

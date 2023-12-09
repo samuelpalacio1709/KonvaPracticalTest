@@ -25,6 +25,7 @@ export class Editor {
 
     this.commandInvoker = new Command.CommandInvoker();
     this.viewController = new ViewController(this);
+    this.selectionOverMouse = null;
     this.init();
   }
 
@@ -51,6 +52,7 @@ export class Editor {
   setUpEvents = () => {
     //subscribe to stage events
     this.stage.on("click tap", this.onClick);
+    this.stage.on("mousemove", this.onMouseMove);
 
     //Event launched when a property has changed
     document.addEventListener("command", () => {
@@ -89,7 +91,7 @@ export class Editor {
       this.updateGuiView();
     });
 
-    figureCommand.figure.on("dragend", () => {
+    figureCommand.figure.on("dragend", (e) => {
       this.moveFigure(figureCommand.figure);
     });
 
@@ -100,8 +102,18 @@ export class Editor {
   }
 
   moveFigure(figure) {
-    const movementCommand = new Command.MovementCommand(figure);
-    this.handleInputChange(movementCommand);
+    let movementCommand = null;
+    if (this.transformer.nodes().length > 1) {
+      if (this.selectionOverMouse === figure) {
+        movementCommand = new Command.MovementCommand(this.transformer.nodes()); //Multiple figures moved
+      }
+    } else {
+      movementCommand = new Command.MovementCommand([figure]); //Just one figure  moved
+    }
+
+    if (movementCommand) {
+      this.handleInputChange(movementCommand);
+    }
   }
 
   onClick = (event) => {
@@ -113,6 +125,10 @@ export class Editor {
     if (event.target) {
       this.changeSelection(event.target);
     }
+  };
+
+  onMouseMove = (event) => {
+    this.selectionOverMouse = event.target;
   };
 
   changeSelection = (newSelection) => {
@@ -203,15 +219,30 @@ export class Editor {
     }
   };
   handleDelete = (e) => {
-    if (e.key.toLowerCase() == "delete") {
-      if (this.selected) {
-        const deleteFigureCommand = new Command.DeleteCommand(
-          this.selected,
+    if (typeof e.key !== "string") return;
+
+    let deleteFigureCommand = null;
+
+    if (e.key?.toLowerCase() == "delete") {
+      if (this.transformer.nodes().length > 1) {
+        deleteFigureCommand = new Command.DeleteCommand(
+          this.transformer.nodes(),
           this.mainLayer
         );
-        this.handleInputChange(deleteFigureCommand);
         this.changeSelection(null);
+      } else {
+        if (this.selected) {
+          deleteFigureCommand = new Command.DeleteCommand(
+            [this.selected],
+            this.mainLayer
+          );
+          this.changeSelection(null);
+        }
       }
+    }
+
+    if (deleteFigureCommand) {
+      this.handleInputChange(deleteFigureCommand);
     }
   };
 
