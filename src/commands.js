@@ -1,6 +1,6 @@
 import { preferences } from "./preferences";
 import * as Konva from "Konva";
-import { drawHeart, drawRect, drawTriangle, drawCircle } from "./shapeDrawer";
+import { drawHeart, drawRect, drawTriangle, drawCircle } from "./shapes";
 class CommandInvoker {
   constructor() {
     this.history = [];

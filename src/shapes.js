@@ -92,11 +92,47 @@ export const drawHeart = (context, shape) => {
   DrawText(context, width, shape, height);
 };
 
-function DrawText(context, width, shape, height) {
+const DrawText = (context, width, shape, height) => {
   const text = shape.getAttr("text") || "";
+  const line = 50;
   context.font = preferences.defaultFigureText;
   context.fillStyle = preferences.defaultTextColor;
-  const xText = width / 2 - context.measureText(text).width / 2;
-  const yText = height / 2;
-  context.fillText(text, xText, yText);
-}
+  const splitedText = splitString(text);
+  const spacing = 20;
+
+  for (let i = 0; i < splitedText.length; i++) {
+    const totalTextWidth = splitedText[i]
+      .split("")
+      .reduce(
+        (total, character) => total + context.measureText(character).width,
+        0
+      );
+    let xText =
+      (width - totalTextWidth - (splitedText[i].length - 1) * spacing) / 2;
+    const yText = height / 2 + i * line - splitedText.length * (line / 5);
+
+    for (let j = 0; j < splitedText[i].length; j++) {
+      const character = splitedText[i][j];
+      context.fillText(character, xText, yText);
+
+      xText += context.measureText(character).width + spacing;
+    }
+  }
+};
+
+const splitString = (text) => {
+  const max = 15;
+  let counter = 0;
+  let maxCount = 0;
+  let strings = [];
+  for (let i = 0; i < text.length; i++) {
+    counter++;
+    if (counter % max === 0) {
+      strings.push(text.slice(maxCount, counter));
+      maxCount += max;
+    }
+  }
+  strings.push(text.slice(maxCount, text.length));
+
+  return strings;
+};
