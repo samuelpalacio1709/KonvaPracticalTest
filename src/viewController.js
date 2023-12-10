@@ -43,6 +43,13 @@ export class ViewController {
     inputs.borderSize.value = editor.selected.strokeWidth();
     inputs.text.value = editor.selected.getAttr("text") || "";
     inputs.borderColorPicker.value = editor.selected.stroke();
+    inputs.sizeWidth.value = Math.round(
+      editor.selected.getWidth() * editor.selected.scaleX()
+    );
+    inputs.sizeHeight.value = Math.round(
+      editor.selected.getHeight() * editor.selected.scaleY()
+    );
+
     this.hide(inputs.canvasEditorGUI);
     this.show(inputs.figureEditorGUI);
   }

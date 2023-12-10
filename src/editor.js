@@ -59,6 +59,27 @@ export class Editor {
       this.updateCanvas();
       this.updateGuiView();
     });
+
+    this.transformer.on("transform", (e) => {
+      this.updateGuiView();
+    });
+    this.transformer.on("transformstart", () => {
+      for (const node of this.transformer.nodes()) {
+        console.log(node);
+        node.setAttr("lastRotation", node.rotation());
+        node.setAttr("lastScale", node.scale());
+        node.setAttr("lastPosition", node.position());
+      }
+    });
+
+    this.transformer.on("transformend", () => {
+      const transformCommand = new Command.TransformCommand(
+        this.transformer.nodes()
+      );
+      if (transformCommand) {
+        this.handleInputChange(transformCommand);
+      }
+    });
   };
 
   setCanvasConfig = () => {
@@ -91,7 +112,7 @@ export class Editor {
       this.updateGuiView();
     });
 
-    figureCommand.figure.on("dragend", (e) => {
+    figureCommand.figure.on("dragend", () => {
       this.moveFigure(figureCommand.figure);
     });
 
@@ -141,6 +162,9 @@ export class Editor {
     this.selected.setAttr("lastColor", figure.getFill());
     this.selected.setAttr("lastBorderColor", figure.stroke());
     this.selected.setAttr("lastOpacity", figure.getOpacity());
+    this.selected.setAttr("lastPosition", figure.position());
+    this.selected.setAttr("lastRotation", figure.rotation());
+    this.selected.setAttr("lastScale", figure.scale());
     this.selected.setAttr("lastText", "");
     console.log(figure.stroke());
   };

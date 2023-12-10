@@ -1,6 +1,7 @@
 import { preferences } from "./preferences";
 import * as Konva from "Konva";
 import { drawHeart, drawRect, drawTriangle, drawCircle } from "./shapes";
+
 class CommandInvoker {
   constructor() {
     this.history = [];
@@ -273,6 +274,37 @@ class MovementCommand extends Command {
   };
 }
 
+class TransformCommand extends Command {
+  constructor(figures) {
+    super();
+    this.figures = figures;
+    this.lastScales = figures.map((figure) => figure.getAttr("lastScale"));
+    this.scales = figures.map((figure) => figure.scale());
+    this.lastPostions = figures.map((figure) => figure.getAttr("lastPosition"));
+    this.positions = figures.map((figure) => figure.position());
+    this.lastRotations = figures.map((figure) =>
+      figure.getAttr("lastRotation")
+    );
+    this.rotations = figures.map((figure) => figure.rotation());
+  }
+
+  execute = () => {
+    for (let i = 0; i < this.figures.length; i++) {
+      this.figures[i].scale(this.scales[i]);
+      this.figures[i].rotation(this.rotations[i]);
+      this.figures[i].position(this.positions[i]);
+    }
+  };
+
+  undo = () => {
+    for (let i = 0; i < this.figures.length; i++) {
+      this.figures[i].scale(this.lastScales[i]);
+      this.figures[i].rotation(this.lastRotations[i]);
+      this.figures[i].position(this.lastPostions[i]);
+    }
+  };
+}
+
 class CanvasResizeCommand extends Command {
   constructor(stage, background, newValue, type) {
     super();
@@ -319,4 +351,5 @@ export default {
   ColorBorderCommand,
   BorderSizeCommand,
   TextCommand,
+  TransformCommand,
 };

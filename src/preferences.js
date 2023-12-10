@@ -13,6 +13,8 @@ export const preferences = {
     borderStrokeWidth: 2,
     padding: 3,
     rotateAnchorOffset: 20,
+    centeredScaling: true,
+    flipEnabled: false,
   },
 
   defaultSelectorStroke: "#CEE36E",

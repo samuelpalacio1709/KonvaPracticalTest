@@ -98,7 +98,7 @@ const DrawText = (context, width, shape, height) => {
   context.font = preferences.defaultFigureText;
   context.fillStyle = preferences.defaultTextColor;
   const splitedText = splitString(text);
-  const spacing = 20;
+  const spacing = 10;
 
   for (let i = 0; i < splitedText.length; i++) {
     const totalTextWidth = splitedText[i]
@@ -121,7 +121,7 @@ const DrawText = (context, width, shape, height) => {
 };
 
 const splitString = (text) => {
-  const max = 15;
+  const max = 10;
   let counter = 0;
   let maxCount = 0;
   let strings = [];
