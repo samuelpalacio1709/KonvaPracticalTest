@@ -71,6 +71,10 @@ export const createMultiselector = (editor) => {
     if (selectionRectangle.visible()) {
       tr.nodes(selected);
     }
+
+    if (tr.nodes().length > 1) {
+      editor.changeSelection(null);
+    }
   });
 
   stage.on("click tap", function (e) {

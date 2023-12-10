@@ -3,6 +3,7 @@ import { preferences } from "./preferences.js";
 import Command from "./commands.js";
 import { ViewController } from "./viewController.js";
 import { createMultiselector } from "./multiselector.js";
+
 export class Editor {
   constructor(inputs) {
     this.inputs = inputs;
@@ -64,21 +65,11 @@ export class Editor {
       this.updateGuiView();
     });
     this.transformer.on("transformstart", () => {
-      for (const node of this.transformer.nodes()) {
-        console.log(node);
-        node.setAttr("lastRotation", node.rotation());
-        node.setAttr("lastScale", node.scale());
-        node.setAttr("lastPosition", node.position());
-      }
+      this.saveTransform();
     });
 
     this.transformer.on("transformend", () => {
-      const transformCommand = new Command.TransformCommand(
-        this.transformer.nodes()
-      );
-      if (transformCommand) {
-        this.handleInputChange(transformCommand);
-      }
+      this.handleTransformChange();
     });
   };
 
@@ -160,6 +151,8 @@ export class Editor {
   setUpFigure = (figure) => {
     this.changeSelection(figure);
     this.selected.setAttr("lastColor", figure.getFill());
+    this.selected.setAttr("defaultWidth", figure.width());
+    this.selected.setAttr("defaultHeight", figure.height());
     this.selected.setAttr("lastBorderColor", figure.stroke());
     this.selected.setAttr("lastOpacity", figure.getOpacity());
     this.selected.setAttr("lastPosition", figure.position());
@@ -201,6 +194,23 @@ export class Editor {
     this.handleInputChange(resizeCommand);
   };
 
+  saveTransform = () => {
+    for (const node of this.transformer.nodes()) {
+      node.setAttr("lastRotation", node.rotation());
+      node.setAttr("lastScale", node.scale());
+      node.setAttr("lastPosition", node.position());
+    }
+  };
+
+  handleTransformChange = () => {
+    const transformCommand = new Command.TransformCommand(
+      this.transformer.nodes()
+    );
+    if (transformCommand) {
+      this.handleInputChange(transformCommand);
+    }
+    this.saveTransform();
+  };
   handleColorPickerChange = (input, targetObject) => {
     if (targetObject) {
       const colorCommand = new Command.ColorCommand(targetObject, input);
@@ -278,6 +288,33 @@ export class Editor {
     }
   };
 
+  handlePositionPreview() {
+    if (this.selected) {
+      this.selected.position({
+        x: Number(this.inputs.positionX.value),
+        y: Number(this.inputs.positionY.value),
+      });
+    }
+  }
+
+  handlePositionChange() {
+    if (this.selected) {
+      this.moveFigure(this.selected);
+      this.selected.setAttr("lastPosition", this.selected.position());
+    }
+  }
+
+  handleTransformPreview() {
+    if (this.selected) {
+      const scaleX = this.selected.getAttr("defaultWidth");
+      const scaleY = this.selected.getAttr("defaultHeight");
+      this.selected.scale({
+        x: Number(this.inputs.sizeWidth.value) / scaleX,
+        y: Number(this.inputs.sizeHeight.value) / scaleY,
+      });
+    }
+  }
+
   //Set the changes to the editor
 
   handleInputs = () => {
@@ -334,7 +371,6 @@ export class Editor {
     });
 
     //Text
-
     this.inputs.text.addEventListener("change", () => {
       this.handleTextChange(this.inputs.text, this.selected);
     });
@@ -343,6 +379,22 @@ export class Editor {
       if (this.selected) {
         this.selected.setAttr("text", e.target.value);
       }
+    });
+
+    // Position
+    this.inputs.positionX.addEventListener("change", () => {
+      this.handlePositionChange();
+    });
+    this.inputs.positionY.addEventListener("change", () => {
+      this.handlePositionChange();
+    });
+
+    // Scale
+    this.inputs.sizeWidth.addEventListener("change", () => {
+      this.handleTransformChange();
+    });
+    this.inputs.sizeHeight.addEventListener("change", () => {
+      this.handleTransformChange();
     });
 
     //Delete
@@ -379,6 +431,22 @@ export class Editor {
         this.selected.stroke(e.target.value);
         this.handleInputChange();
       }
+    });
+
+    //Position preview
+    this.inputs.positionX.addEventListener("input", () => {
+      this.handlePositionPreview();
+    });
+    this.inputs.positionY.addEventListener("input", () => {
+      this.handlePositionPreview();
+    });
+
+    //Scale preview
+    this.inputs.sizeWidth.addEventListener("input", () => {
+      this.handleTransformPreview();
+    });
+    this.inputs.sizeHeight.addEventListener("input", () => {
+      this.handleTransformPreview();
     });
   };
 }
