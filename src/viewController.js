@@ -49,6 +49,7 @@ export class ViewController {
     inputs.sizeHeight.value = Math.round(
       editor.selected.getHeight() * editor.selected.scaleY()
     );
+    console.log(editor.selected.rotation());
 
     this.hide(inputs.canvasEditorGUI);
     this.show(inputs.figureEditorGUI);

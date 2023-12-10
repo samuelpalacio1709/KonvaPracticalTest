@@ -306,7 +306,8 @@ button {
   width: 92px;
   height: 30px;
   border: none;
-  border-radius: var(--border-radius-third)
+  border-radius: var(--border-radius-third);
+  cursor: pointer;
 }
 
 .hide {

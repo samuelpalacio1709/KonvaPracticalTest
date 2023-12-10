@@ -16,6 +16,7 @@ const inputs = {
   opacityText: document.querySelector("#opacity-number"),
   canvasEditorGUI: document.querySelector("#canvas-editor-inputs"),
   figureEditorGUI: document.querySelector("#figure-editor-inputs"),
+  download: document.querySelector("#download"),
   figures: document.querySelectorAll(".figure"),
 };
 export const getInputs = () => inputs;

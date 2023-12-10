@@ -5,8 +5,9 @@ import { ViewController } from "./viewController.js";
 import { createMultiselector } from "./multiselector.js";
 
 export class Editor {
-  constructor(inputs) {
+  constructor(inputs, project) {
     this.inputs = inputs;
+    this.project = project;
     this.selected = null;
 
     //Konva set up
@@ -70,6 +71,14 @@ export class Editor {
 
     this.transformer.on("transformend", () => {
       this.handleTransformChange();
+    });
+
+    this.inputs.download.addEventListener("click", () => {
+      console.log(this.transformer);
+      this.changeSelection(null);
+      this.transformer.nodes([]);
+      const dataURL = this.stage.toDataURL({ pixelRatio: 3 });
+      this.project.downloadURI(dataURL);
     });
   };
 
