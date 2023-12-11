@@ -80,6 +80,8 @@ export class Editor {
 
   saveProject = () => {
     const json = this.stage.toJSON();
+    this.project.size.x = this.stage.width();
+    this.project.size.y = this.stage.height();
     this.project.data = json;
     localStorage.setItem(this.project.name, JSON.stringify(this.project));
     console.log(this.stage);

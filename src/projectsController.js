@@ -78,12 +78,20 @@ export class ProjectsManager {
     try {
       const data = await fetch("assets/info/defaultProjects.json");
       const json = await data.json();
-      for (const localProject of Object.values(localStorage)) {
-        json.projects.push(JSON.parse(localProject));
-        console.log(JSON.parse(localProject));
-        console.log("🌴🌴🌴🌴🌴");
+      if (!json.projects) {
+        json.projects = [];
       }
-      return json.projects;
+      for (const localProject of Object.values(localStorage)) {
+        const storedProject = JSON.parse(localProject);
+
+        json.projects = json?.projects?.filter((project) => {
+          return project.name != storedProject.name;
+        });
+
+        json?.projects?.push(storedProject);
+      }
+      console.log(JSON.stringify(json.projects[2]));
+      return json?.projects;
     } catch (e) {
       console.log(e);
     }
@@ -105,7 +113,7 @@ export class ProjectsManager {
     if (name === "") return;
     if (width < 250) return;
     if (height < 250) return;
-    if (this.projects.find((project) => project.name == name)) return;
+    if (this.projects?.find((project) => project.name == name)) return;
 
     const project = new Project(name, { x: width, y: height }, null);
 

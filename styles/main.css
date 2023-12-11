@@ -42,6 +42,16 @@ header {
   z-index: 2;
 }
 
+
+.canvas-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+
 h1 {
   font-family: "gilbert", sans-serif;
   font-weight: 700;

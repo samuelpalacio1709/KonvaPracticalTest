@@ -1,98 +1,28 @@
 {
   "projects": [
     {
-      "name": "Social Connect",
+      "name": "SocialConnect",
       "date": "2022-05-15",
-      "size": { "x": 500, "y": 500 },
-      "data": {
-        "attrs": { "width": 500, "height": 500 },
-        "className": "Stage",
-        "children": [
-          {
-            "attrs": {},
-            "className": "Layer",
-            "children": [
-              {
-                "attrs": {
-                  "width": 500,
-                  "height": 500,
-                  "fill": "#ffffff",
-                  "listening": false,
-                  "lastColor": "#ffffff"
-                },
-                "className": "Rect"
-              },
-              {
-                "attrs": {
-                  "fill": "rgba(207, 255, 219,0.3)",
-                  "stroke": "#CEE36E",
-                  "visible": false
-                },
-                "className": "Rect"
-              },
-              {
-                "attrs": {
-                  "width": 200,
-                  "height": 200,
-                  "fill": "#41D5E8",
-                  "stroke": "#2C8E9C",
-                  "strokeWidth": 4,
-                  "draggable": true,
-                  "strokeScaleEnabled": false,
-                  "x": 250,
-                  "y": 250,
-                  "name": "figure",
-                  "offsetX": 100,
-                  "offsetY": 100,
-                  "lastColor": "#41D5E8",
-                  "defaultWidth": 200,
-                  "defaultHeight": 200,
-                  "lastBorderColor": "#2C8E9C",
-                  "lastOpacity": 1,
-                  "lastPosition": { "x": 250, "y": 250 },
-                  "lastRotation": 0,
-                  "lastScale": { "x": 1, "y": 1 },
-                  "lastText": ""
-                },
-                "className": "Shape"
-              }
-            ]
-          },
-          {
-            "attrs": {},
-            "className": "Layer",
-            "children": [
-              {
-                "attrs": {
-                  "anchorStroke": "#CEE36E",
-                  "anchorFill": "#CEE36E",
-                  "borderStroke": "#CEE36E",
-                  "anchorSize": 6,
-                  "anchorCornerRadius": 50,
-                  "borderStrokeWidth": 2,
-                  "padding": 3,
-                  "rotateAnchorOffset": 20,
-                  "centeredScaling": true,
-                  "flipEnabled": false
-                },
-                "className": "Transformer"
-              }
-            ]
-          }
-        ]
-      }
+      "size": {
+        "x": 500,
+        "y": 600
+      },
+      "data": "{\"attrs\":{\"width\":500,\"height\":600},\"className\":\"Stage\",\"children\":[{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"width\":500,\"height\":600,\"fill\":\"#ffffff\",\"listening\":false,\"id\":\"background\",\"lastColor\":\"#ffffff\"},\"className\":\"Rect\"},{\"attrs\":{\"fill\":\"rgba(207, 255, 219,0.3)\",\"stroke\":\"#CEE36E\",\"visible\":false},\"className\":\"Rect\"},{\"attrs\":{\"fill\":\"rgba(207, 255, 219,0.3)\",\"stroke\":\"#CEE36E\",\"visible\":false},\"className\":\"Rect\"},{\"attrs\":{\"_id\":130,\"eventListeners\":{\"mousedown\":[{\"name\":\"konva\"}],\"touchstart\":[{\"name\":\"konva\"}]},\"width\":200,\"height\":200,\"fill\":\"#d1d1d1\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":249.9999999999998,\"y\":299.9999999999994,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#d1d1d1\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":249.9999999999998,\"y\":299.9999999999994},\"lastRotation\":0,\"lastScale\":{\"x\":1.4019607843137236,\"y\":2.48039215686274},\"lastText\":\"\",\"scaleX\":1.4019607843137236,\"scaleY\":2.48039215686274,\"index\":2,\"_batchingTransformChange\":false,\"_needClearTransformCache\":false,\"_filterUpToDate\":false,\"_isUnderCache\":false,\"_shouldFireChangeEvents\":true,\"colorKey\":\"#f96ef5\"},\"className\":\"Shape\"},{\"attrs\":{\"_id\":131,\"eventListeners\":{\"mousedown\":[{\"name\":\"konva\"}],\"touchstart\":[{\"name\":\"konva\"}]},\"width\":200,\"height\":200,\"fill\":\"#ffffff\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":249,\"y\":201,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#ffffff\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":250,\"y\":300},\"lastRotation\":0,\"lastScale\":{\"x\":1,\"y\":1},\"lastText\":\"\",\"index\":2,\"_batchingTransformChange\":false,\"_needClearTransformCache\":false,\"_filterUpToDate\":false,\"_isUnderCache\":false,\"_shouldFireChangeEvents\":true,\"colorKey\":\"#ff2172\"},\"className\":\"Shape\"},{\"attrs\":{\"_id\":132,\"eventListeners\":{\"mousedown\":[{\"name\":\"konva\"}],\"touchstart\":[{\"name\":\"konva\"}]},\"width\":220,\"height\":195,\"fill\":\"#ff0000\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":247.00000000000023,\"y\":201.99999999999994,\"name\":\"figure\",\"offsetX\":110,\"offsetY\":97.5,\"id\":\"heart\",\"type\":\"figure\",\"lastColor\":\"#ff0000\",\"defaultWidth\":220,\"defaultHeight\":195,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":247.00000000000023,\"y\":201.99999999999994},\"lastRotation\":0,\"lastScale\":{\"x\":0.5970715410028041,\"y\":0.5970715410028041},\"lastText\":\"\",\"scaleX\":0.5970715410028041,\"scaleY\":0.5970715410028041,\"index\":2,\"_batchingTransformChange\":false,\"_needClearTransformCache\":false,\"_filterUpToDate\":false,\"_isUnderCache\":false,\"_shouldFireChangeEvents\":true,\"colorKey\":\"#0b9540\"},\"className\":\"Shape\"},{\"attrs\":{\"_id\":133,\"eventListeners\":{\"mousedown\":[{\"name\":\"konva\"}],\"touchstart\":[{\"name\":\"konva\"}]},\"width\":200,\"height\":200,\"fill\":\"#ffffff\",\"stroke\":\"#ffffff\",\"strokeWidth\":0,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":250.99999999999997,\"y\":497,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#ffffff\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#ffffff\",\"lastOpacity\":1,\"lastPosition\":{\"x\":247.99999999999997,\"y\":497},\"lastRotation\":0,\"lastScale\":{\"x\":1.2058823529411757,\"y\":0.36274509803921484},\"lastText\":\"\",\"scaleX\":1.2058823529411757,\"scaleY\":0.36274509803921484,\"index\":2,\"_batchingTransformChange\":false,\"_needClearTransformCache\":false,\"_filterUpToDate\":false,\"_isUnderCache\":false,\"_shouldFireChangeEvents\":true,\"colorKey\":\"#bbcdd3\"},\"className\":\"Shape\"},{\"attrs\":{\"fill\":\"rgba(207, 255, 219,0.3)\",\"stroke\":\"#CEE36E\",\"visible\":false},\"className\":\"Rect\"}]},{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"anchorStroke\":\"#CEE36E\",\"anchorFill\":\"#CEE36E\",\"borderStroke\":\"#CEE36E\",\"anchorSize\":6,\"anchorCornerRadius\":50,\"borderStrokeWidth\":2,\"padding\":3,\"rotateAnchorOffset\":20,\"centeredScaling\":true,\"flipEnabled\":false,\"x\":125.00000000000006,\"y\":460.00000000000006},\"className\":\"Transformer\"},{\"attrs\":{\"anchorStroke\":\"#CEE36E\",\"anchorFill\":\"#CEE36E\",\"borderStroke\":\"#CEE36E\",\"anchorSize\":6,\"anchorCornerRadius\":50,\"borderStrokeWidth\":2,\"padding\":3,\"rotateAnchorOffset\":20,\"centeredScaling\":true,\"flipEnabled\":false},\"className\":\"Transformer\"},{\"attrs\":{\"anchorStroke\":\"#CEE36E\",\"anchorFill\":\"#CEE36E\",\"borderStroke\":\"#CEE36E\",\"anchorSize\":6,\"anchorCornerRadius\":50,\"borderStrokeWidth\":2,\"padding\":3,\"rotateAnchorOffset\":20,\"centeredScaling\":true,\"flipEnabled\":false},\"className\":\"Transformer\"}]}]}"
     },
     {
-      "name": "EcoTracker",
-      "date": "2021-11-30",
-      "size": { "x": 1080, "y": 1090 },
-      "data": ""
+      "name": "SmartWallet",
+      "date": "2022-05-15",
+      "size": {
+        "x": 500,
+        "y": 500
+      },
+      "data": "{\"attrs\":{\"width\":500,\"height\":500},\"className\":\"Stage\",\"children\":[{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"width\":500,\"height\":500,\"fill\":\"#ffffff\",\"listening\":false,\"id\":\"background\",\"lastColor\":\"#ffffff\"},\"className\":\"Rect\"},{\"attrs\":{\"fill\":\"rgba(207, 255, 219,0.3)\",\"stroke\":\"#CEE36E\",\"visible\":false},\"className\":\"Rect\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#41D5E8\",\"stroke\":\"#2C8E9C\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":249.99999999999966,\"y\":249.99999999999983,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#41D5E8\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#2C8E9C\",\"lastOpacity\":1,\"lastPosition\":{\"x\":249.99999999999966,\"y\":249.99999999999983},\"lastRotation\":0,\"lastScale\":{\"x\":1.6127525478104334,\"y\":1.220595685065337},\"lastText\":\"\",\"scaleX\":1.6127525478104334,\"scaleY\":1.220595685065337},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#43a5b1\",\"stroke\":\"#2C8E9C\",\"strokeWidth\":0,\"draggable\":true,\"strokeScaleEnabled\":false,\"sides\":3,\"radius\":100,\"x\":242.0000000000026,\"y\":227.99999999999955,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"triangle\",\"type\":\"figure\",\"lastColor\":\"#43a5b1\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#2C8E9C\",\"lastOpacity\":1,\"lastPosition\":{\"x\":247.0000000000026,\"y\":289.99999999999955},\"lastRotation\":90.00000000000021,\"lastScale\":{\"x\":0.9999999999999977,\"y\":1.539215686274498},\"lastText\":\"\",\"rotation\":90.00000000000021,\"scaleX\":0.9999999999999977,\"scaleY\":1.539215686274498,\"skewX\":7.776422817786744e-16},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#000000\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":250.99999999999994,\"y\":375.9999999999993,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#000000\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":251.99999999999994,\"y\":376.9999999999993},\"lastRotation\":0,\"lastScale\":{\"x\":1.6176470588235288,\"y\":0.049019607843137705},\"lastText\":\"\",\"scaleX\":1.6176470588235288,\"scaleY\":0.049019607843137705},\"className\":\"Shape\"}]},{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"anchorStroke\":\"#CEE36E\",\"anchorFill\":\"#CEE36E\",\"borderStroke\":\"#CEE36E\",\"anchorSize\":6,\"anchorCornerRadius\":50,\"borderStrokeWidth\":2,\"padding\":3,\"rotateAnchorOffset\":20,\"centeredScaling\":true,\"flipEnabled\":false,\"x\":89,\"y\":370.99999999999926},\"className\":\"Transformer\"}]}]}"
     },
     {
-      "name": "Wallet",
-      "date": "2021-11-30",
-      "size": { "x": 1080, "y": 1090 },
-      "data": ""
+      "name": "TravelBuddy",
+      "date": "2022-05-15",
+      "size": { "x": 800, "y": 500 },
+      "data": "{\"attrs\":{\"width\":800,\"height\":500},\"className\":\"Stage\",\"children\":[{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"width\":800,\"height\":500,\"fill\":\"#ffffff\",\"listening\":false,\"id\":\"background\",\"lastColor\":\"#ffffff\"},\"className\":\"Rect\"},{\"attrs\":{\"fill\":\"rgba(207, 255, 219,0.3)\",\"stroke\":\"#CEE36E\",\"visible\":false},\"className\":\"Rect\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#66d673\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":407,\"y\":139,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"circle\",\"type\":\"figure\",\"lastColor\":\"#66d673\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":400,\"y\":245},\"lastRotation\":0,\"lastScale\":{\"x\":1,\"y\":1},\"lastText\":\"\"},\"className\":\"Shape\"},{\"attrs\":{\"width\":220,\"height\":195,\"fill\":\"#0084ff\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":408.00000000000034,\"y\":145,\"name\":\"figure\",\"offsetX\":110,\"offsetY\":97.5,\"id\":\"heart\",\"type\":\"figure\",\"lastColor\":\"#0084ff\",\"defaultWidth\":220,\"defaultHeight\":195,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":408.00000000000034,\"y\":149},\"lastRotation\":0,\"lastScale\":{\"x\":0.673457717451845,\"y\":0.6734577174518448},\"lastText\":\"\",\"scaleX\":0.673457717451845,\"scaleY\":0.6734577174518448},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#66d673\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"sides\":3,\"radius\":100,\"x\":411,\"y\":342,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"triangle\",\"type\":\"figure\",\"lastColor\":\"#66d673\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":405,\"y\":343},\"lastRotation\":0,\"lastScale\":{\"x\":1,\"y\":1},\"lastText\":\"\"},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#66d673\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":407.9999999999999,\"y\":291.9999999999998,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#66d673\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":405.9999999999999,\"y\":293.9999999999998},\"lastRotation\":0,\"lastScale\":{\"x\":0.501535512252104,\"y\":0.5015355122521038},\"lastText\":\"\",\"scaleX\":0.501535512252104,\"scaleY\":0.5015355122521038},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#41D5E8\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":408.00000000000017,\"y\":305.00000000000034,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#41D5E8\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":408.00000000000017,\"y\":305.00000000000034},\"lastRotation\":-16.990823291986075,\"lastScale\":{\"x\":0.999999999999999,\"y\":0.11764705882353298},\"lastText\":\"\",\"rotation\":-16.990823291986075,\"scaleX\":0.999999999999999,\"scaleY\":0.11764705882353298,\"skewX\":5.898059818320972e-17},\"className\":\"Shape\"},{\"attrs\":{\"width\":200,\"height\":200,\"fill\":\"#41D5E8\",\"stroke\":\"#000000\",\"strokeWidth\":4,\"draggable\":true,\"strokeScaleEnabled\":false,\"x\":399.00000000000097,\"y\":307.0000000000002,\"name\":\"figure\",\"offsetX\":100,\"offsetY\":100,\"id\":\"square\",\"type\":\"figure\",\"lastColor\":\"#41D5E8\",\"defaultWidth\":200,\"defaultHeight\":200,\"lastBorderColor\":\"#000000\",\"lastOpacity\":1,\"lastPosition\":{\"x\":408.00000000000097,\"y\":326.0000000000002},\"lastRotation\":51.313203220710136,\"lastScale\":{\"x\":0.7550251832283658,\"y\":0.0882352941176482},\"lastText\":\"\",\"rotation\":51.313203220710136,\"scaleX\":0.7550251832283658,\"scaleY\":0.0882352941176482,\"skewX\":-6.24939135736047e-16},\"className\":\"Shape\"}]},{\"attrs\":{},\"className\":\"Layer\",\"children\":[{\"attrs\":{\"anchorStroke\":\"#CEE36E\",\"anchorFill\":\"#CEE36E\",\"borderStroke\":\"#CEE36E\",\"anchorSize\":6,\"anchorCornerRadius\":50,\"borderStrokeWidth\":2,\"padding\":3,\"rotateAnchorOffset\":20,\"centeredScaling\":true,\"flipEnabled\":false,\"x\":306,\"y\":240},\"className\":\"Transformer\"}]}]}"
     }
   ]
 }
