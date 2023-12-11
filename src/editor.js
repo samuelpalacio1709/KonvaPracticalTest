@@ -1,4 +1,4 @@
-import * as Konva from "Konva";
+import * as Konva from "konva";
 import { preferences } from "./preferences.js";
 import Command from "./commands.js";
 import { ViewController } from "./viewController.js";

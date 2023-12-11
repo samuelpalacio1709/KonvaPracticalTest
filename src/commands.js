@@ -1,5 +1,5 @@
 import { preferences } from "./preferences";
-import * as Konva from "Konva";
+import * as Konva from "konva";
 import { drawHeart, drawRect, drawTriangle, drawCircle } from "./shapes";
 
 class CommandInvoker {

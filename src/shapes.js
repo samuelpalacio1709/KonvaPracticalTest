@@ -1,5 +1,5 @@
 import { preferences } from "./preferences";
-import * as Konva from "Konva";
+import * as Konva from "konva";
 export const drawTriangle = (context, shape) => {
   const width = shape.getAttr("width");
   const height = shape.getAttr("height");

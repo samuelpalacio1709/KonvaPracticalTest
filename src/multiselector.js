@@ -1,4 +1,4 @@
-import * as Konva from "Konva";
+import * as Konva from "konva";
 import { preferences } from "./preferences.js";
 
 //Multiselector implementation suggested by Konva documentation
