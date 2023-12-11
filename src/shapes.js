@@ -1,5 +1,5 @@
 import { preferences } from "./preferences";
-
+import * as Konva from "Konva";
 export const drawTriangle = (context, shape) => {
   const width = shape.getAttr("width");
   const height = shape.getAttr("height");
@@ -36,6 +36,39 @@ export const drawCircle = (context, shape) => {
   context.fill();
   context.fillStrokeShape(shape);
   DrawText(context, width, shape, height);
+};
+
+export const drawMultipleFigures = (figures, layer) => {
+  let newFigures = [];
+
+  for (const figure of figures) {
+    let drawingMethod = null;
+    switch (figure.attrs["id"]) {
+      case "circle":
+        drawingMethod = drawCircle;
+        break;
+      case "triangle":
+        drawingMethod = drawTriangle;
+        break;
+      case "square":
+        drawingMethod = drawRect;
+        break;
+      case "heart":
+        drawingMethod = drawHeart;
+        break;
+    }
+
+    const newFigure = new Konva.Shape({
+      ...figure,
+      sceneFunc(context, shape) {
+        drawingMethod(context, shape);
+      },
+    });
+    newFigures.push(newFigure);
+    figure.destroy();
+    layer.add(newFigure);
+  }
+  return newFigures;
 };
 
 export const drawHeart = (context, shape) => {

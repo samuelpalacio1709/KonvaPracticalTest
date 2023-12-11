@@ -1,6 +1,8 @@
 export class Project {
-  constructor(name, data) {
+  constructor(name, size, data) {
     this.name = name;
+    this.date = "2022-05-15";
+    this.size = size;
     this.data = data;
   }
 

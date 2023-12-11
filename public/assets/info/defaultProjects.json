@@ -1,0 +1,98 @@
+{
+  "projects": [
+    {
+      "name": "Social Connect",
+      "date": "2022-05-15",
+      "size": { "x": 500, "y": 500 },
+      "data": {
+        "attrs": { "width": 500, "height": 500 },
+        "className": "Stage",
+        "children": [
+          {
+            "attrs": {},
+            "className": "Layer",
+            "children": [
+              {
+                "attrs": {
+                  "width": 500,
+                  "height": 500,
+                  "fill": "#ffffff",
+                  "listening": false,
+                  "lastColor": "#ffffff"
+                },
+                "className": "Rect"
+              },
+              {
+                "attrs": {
+                  "fill": "rgba(207, 255, 219,0.3)",
+                  "stroke": "#CEE36E",
+                  "visible": false
+                },
+                "className": "Rect"
+              },
+              {
+                "attrs": {
+                  "width": 200,
+                  "height": 200,
+                  "fill": "#41D5E8",
+                  "stroke": "#2C8E9C",
+                  "strokeWidth": 4,
+                  "draggable": true,
+                  "strokeScaleEnabled": false,
+                  "x": 250,
+                  "y": 250,
+                  "name": "figure",
+                  "offsetX": 100,
+                  "offsetY": 100,
+                  "lastColor": "#41D5E8",
+                  "defaultWidth": 200,
+                  "defaultHeight": 200,
+                  "lastBorderColor": "#2C8E9C",
+                  "lastOpacity": 1,
+                  "lastPosition": { "x": 250, "y": 250 },
+                  "lastRotation": 0,
+                  "lastScale": { "x": 1, "y": 1 },
+                  "lastText": ""
+                },
+                "className": "Shape"
+              }
+            ]
+          },
+          {
+            "attrs": {},
+            "className": "Layer",
+            "children": [
+              {
+                "attrs": {
+                  "anchorStroke": "#CEE36E",
+                  "anchorFill": "#CEE36E",
+                  "borderStroke": "#CEE36E",
+                  "anchorSize": 6,
+                  "anchorCornerRadius": 50,
+                  "borderStrokeWidth": 2,
+                  "padding": 3,
+                  "rotateAnchorOffset": 20,
+                  "centeredScaling": true,
+                  "flipEnabled": false
+                },
+                "className": "Transformer"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "EcoTracker",
+      "date": "2021-11-30",
+      "size": { "x": 1080, "y": 1090 },
+      "data": ""
+    },
+    {
+      "name": "Wallet",
+      "date": "2021-11-30",
+      "size": { "x": 1080, "y": 1090 },
+      "data": ""
+    }
+  ]
+}

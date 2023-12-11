@@ -10,12 +10,15 @@
   --lines--color: #bdc3cd;
   --separator-lines-color: #0F1116;
   --outline--color: #697280;
-  --button-color: #5d38e0;
+  --button-color: #673AB6;
   --dash-lines-color: #BCC2CC;
+  --projects-grid-color: #FAFAFC;
+  --project-button-color: #D6DBE2;
   --border-radius-first: 10px;
   --border-radius-second: 44px;
   --border-radius-third: 5px;
   --outline--width: 2px;
+  --border-projects-grid: 1px solid var(--dash-lines-color);
   padding: 0;
   box-sizing: border-box;
   margin: 0;
@@ -53,6 +56,14 @@ h4 {
   font-family: 'Nanum Gothic', sans-serif;
   font-size: 14px;
   font-weight: 800;
+
+}
+
+h3 {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--main-titles-color);
 
 }
 
@@ -113,6 +124,10 @@ p {
 .wrapper {
   width: 80%;
   height: 100%;
+}
+
+.canvas-container {
+  pointer-events: all;
 }
 
 .canvas-editor {
@@ -308,6 +323,115 @@ button {
   border: none;
   border-radius: var(--border-radius-third);
   cursor: pointer;
+}
+
+
+
+/*Projects-Section*/
+
+
+.projects-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-color);
+}
+
+.projects-container {
+  width: 850px;
+  height: 400px;
+  background-color: var(--projects-grid-color);
+  border-radius: var(--border-radius-first);
+  box-shadow: 0px 3px 6px #00000029;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.projects-grid {
+  display: flex;
+  width: 100%;
+  height: 350px;
+  flex-wrap: wrap;
+  border-radius: var(--border-radius-first);
+  overflow: hidden;
+  border: var(--border-projects-grid);
+
+}
+
+.cell {
+  width: 28%;
+  height: 50px;
+  border-right: var(--border-projects-grid);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 20px;
+}
+
+
+
+.cell:not(:nth-last-child(-n+4)) {
+  border-bottom: var(--border-projects-grid);
+}
+
+.cell:nth-child(4n) {
+  border-right: 0px;
+  width: 16%;
+}
+
+.cell h2 {
+  color: var(--titles-color);
+  font-size: 16px;
+}
+
+
+
+.project-button {
+  background-color: var(--project-button-color);
+  height: 27px;
+}
+
+.project-button h3 {
+  color: var(--p-color);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.new,
+.cell .project-button:hover {
+  background-color: var(--button-color);
+
+}
+
+.new h3,
+.cell .project-button:hover h3 {
+  color: var(--light-color);
+  font-weight: 800;
+
+
+}
+
+
+.new-project {
+  width: 500px;
+  height: 350px;
+  background-color: var(--projects-grid-color);
+  border-radius: var(--border-radius-first);
+  box-shadow: 0px 3px 6px #00000029;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.config {
+  width: 80%;
 }
 
 .hide {

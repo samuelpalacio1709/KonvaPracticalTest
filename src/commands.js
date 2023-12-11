@@ -137,7 +137,8 @@ class FigureCommand extends Command {
         });
         break;
     }
-
+    figure.setAttr("id", this.name);
+    figure.setAttr("type", "figure");
     return figure;
   }
 }

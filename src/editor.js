@@ -3,49 +3,39 @@ import { preferences } from "./preferences.js";
 import Command from "./commands.js";
 import { ViewController } from "./viewController.js";
 import { createMultiselector } from "./multiselector.js";
+import { drawMultipleFigures } from "./shapes.js";
 
 export class Editor {
-  constructor(inputs, project) {
+  constructor(inputs) {
     this.inputs = inputs;
-    this.project = project;
     this.selected = null;
 
-    //Konva set up
-    this.stage = new Konva.Stage({
-      container: "canvas-container",
-      ...preferences.defaultCanvasSize,
-    });
-    this.transformer = new Konva.Transformer(preferences.defaultTransformer);
-    this.mainLayer = new Konva.Layer();
-    this.transformerLayer = new Konva.Layer();
-    this.background = new Konva.Rect({
-      width: this.stage.width(),
-      height: this.stage.height(),
-      fill: preferences.defaultBackgroundColor,
-      listening: false,
-    });
-
-    this.commandInvoker = new Command.CommandInvoker();
-    this.viewController = new ViewController(this);
-    this.selectionOverMouse = null;
     this.init();
   }
 
   init = () => {
-    //Handle layers
-    this.stage.add(this.mainLayer);
-    this.stage.add(this.transformerLayer);
-    this.mainLayer.add(this.background);
-    this.transformerLayer.add(this.transformer);
-
-    this.setUpEvents();
-    this.setCanvasConfig();
+    this.setProject(null);
     this.setFigures();
-    this.setUpMultiselector();
+    this.setCanvasConfig();
     this.handleInputs();
     this.handleInputPreviews();
     this.updateGuiView();
   };
+
+  openProject = (project) => {
+    this.editor = document.querySelector("#editor");
+    this.inputs.closeProjectBtn.classList.remove("hide");
+    this.container.classList.remove("hide");
+    this.setProject(project);
+    this.changeSelection(null);
+    this.updateGuiView();
+  };
+
+  closeEditor() {
+    console.log("Close editor");
+    this.inputs.closeProjectBtn.classList.add("hide");
+    this.container.classList.add("hide");
+  }
 
   setUpMultiselector = () => {
     createMultiselector(this);
@@ -55,12 +45,9 @@ export class Editor {
     //subscribe to stage events
     this.stage.on("click tap", this.onClick);
     this.stage.on("mousemove", this.onMouseMove);
+    this.background.setAttr("lastColor", preferences.defaultBackgroundColor);
 
     //Event launched when a property has changed
-    document.addEventListener("command", () => {
-      this.updateCanvas();
-      this.updateGuiView();
-    });
 
     this.transformer.on("transform", (e) => {
       this.updateGuiView();
@@ -72,18 +59,30 @@ export class Editor {
     this.transformer.on("transformend", () => {
       this.handleTransformChange();
     });
+  };
 
+  setCanvasConfig = () => {
+    document.addEventListener("command", () => {
+      this.updateCanvas();
+      this.updateGuiView();
+    });
     this.inputs.download.addEventListener("click", () => {
-      console.log(this.transformer);
       this.changeSelection(null);
       this.transformer.nodes([]);
       const dataURL = this.stage.toDataURL({ pixelRatio: 3 });
       this.project.downloadURI(dataURL);
     });
+
+    this.inputs.save.addEventListener("click", () => {
+      this.saveProject();
+    });
   };
 
-  setCanvasConfig = () => {
-    this.background.setAttr("lastColor", preferences.defaultBackgroundColor);
+  saveProject = () => {
+    const json = this.stage.toJSON();
+    this.project.data = json;
+    localStorage.setItem(this.project.name, JSON.stringify(this.project));
+    console.log(this.stage);
   };
 
   setFigures = () => {
@@ -94,33 +93,101 @@ export class Editor {
     });
   };
 
+  setProject(project) {
+    this.project = project;
+
+    if (this.project == null) {
+      this.project = { size: { x: 500, y: 500 }, name: "default", data: null };
+    }
+
+    if (this.project.data ?? "") {
+      const json = this.project.data;
+      this.stage = Konva.Node.create(json, "canvas-container");
+    } else {
+      this.stage = new Konva.Stage({
+        container: "canvas-container",
+        width: Number(this.project.size.x),
+        height: Number(this.project.size.y),
+      });
+    }
+
+    this.transformer = new Konva.Transformer(preferences.defaultTransformer);
+
+    if (this.stage.children <= 0) {
+      console.log("Getting new layers");
+      this.mainLayer = new Konva.Layer();
+      this.transformerLayer = new Konva.Layer();
+      this.stage.add(this.mainLayer);
+      this.stage.add(this.transformerLayer);
+      this.transformerLayer.add(this.transformer);
+    } else {
+      this.mainLayer = this.stage.children[0];
+      this.transformerLayer = this.stage.children[1];
+      this.transformerLayer.add(this.transformer);
+    }
+
+    const existingBackground = this.mainLayer.children?.find(
+      (child) => child?.attrs["id"] === "background"
+    );
+
+    const existingFigures = this.mainLayer.children?.filter(
+      (child) => child?.attrs["type"] === "figure"
+    );
+    if (existingFigures.length > 0) {
+      const newFigures = drawMultipleFigures(existingFigures, this.mainLayer);
+      for (const figure of newFigures) {
+        this.setFigureEvents(figure);
+      }
+    }
+
+    if (!existingBackground) {
+      this.background = new Konva.Rect({
+        width: this.stage.width(),
+        height: this.stage.height(),
+        fill: preferences.defaultBackgroundColor,
+        listening: false,
+        id: "background",
+      });
+    } else {
+      this.background = existingBackground;
+    }
+    this.mainLayer.add(this.background);
+    this.commandInvoker = new Command.CommandInvoker();
+    this.viewController = new ViewController(this);
+    this.selectionOverMouse = null;
+    this.container = document.querySelector("#editor");
+
+    this.setUpEvents();
+    this.setUpMultiselector();
+  }
+
   createFigure(name) {
     const figureCommand = new Command.FigureCommand(
       this.stage,
       this.mainLayer,
       name
     );
-    figureCommand.figure.name("figure");
-    figureCommand.figure.on("dragstart", () => {
-      figureCommand.figure.setAttr(
-        "lastPosition",
-        figureCommand.figure.position()
-      );
-    });
-
-    figureCommand.figure.on("dragmove", () => {
-      this.updateGuiView();
-    });
-
-    figureCommand.figure.on("dragend", () => {
-      this.moveFigure(figureCommand.figure);
-    });
-
+    this.setFigureEvents(figureCommand.figure);
     this.commandInvoker.executeCommand(figureCommand);
     this.transformer.nodes([figureCommand.figure]);
 
     this.setUpFigure(figureCommand.figure);
   }
+
+  setFigureEvents = (figure) => {
+    figure.name("figure");
+    figure.on("dragstart", () => {
+      figure.setAttr("lastPosition", figure.position());
+    });
+
+    figure.on("dragmove", () => {
+      this.updateGuiView();
+    });
+
+    figure.on("dragend", () => {
+      this.moveFigure(figure);
+    });
+  };
 
   moveFigure(figure) {
     let movementCommand = null;
@@ -168,6 +235,7 @@ export class Editor {
     this.selected.setAttr("lastRotation", figure.rotation());
     this.selected.setAttr("lastScale", figure.scale());
     this.selected.setAttr("lastText", "");
+
     console.log(figure.stroke());
   };
 
@@ -409,6 +477,11 @@ export class Editor {
     //Delete
     document.addEventListener("keydown", (e) => {
       this.handleDelete(e);
+    });
+
+    //Close
+    this.inputs.closeProjectBtn.addEventListener("click", () => {
+      this.closeEditor();
     });
   };
 

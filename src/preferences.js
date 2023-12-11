@@ -1,7 +1,6 @@
 export const preferences = {
   //canvas
   defaultBackgroundColor: "#ffffff",
-  defaultCanvasSize: { width: 500, height: 500 },
   defaultFigureText: "bold 24px Nanum Gothic",
   //transformer tool
   defaultTransformer: {
