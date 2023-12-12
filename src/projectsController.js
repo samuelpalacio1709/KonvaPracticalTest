@@ -54,13 +54,15 @@ export class ProjectsManager {
     if (!this.projects) return;
     let index = 0;
     for (let i = 0; i < this.projects.length; i++) {
+      if (i >= this.grid.size.y) break;
+
       const project = this.projects[i];
       document.querySelector(
         `#cell-${index}`
       ).innerHTML = `<h3>${project.name}</h3>`;
       document.querySelector(
         `#cell-${index + 1}`
-      ).innerHTML = `<h3>${project.date}</h3>`;
+      ).innerHTML = `<h3>${this.formateDate(project.date)}</h3>`;
       document.querySelector(
         `#cell-${index + 2}`
       ).innerHTML = `<h3>${project.size.x}x${project.size.y}</h3>`;
@@ -74,6 +76,15 @@ export class ProjectsManager {
     this.setUpButtons();
   };
 
+  formateDate(date) {
+    const currentDate = new Date(date);
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const day = currentDate.getDate();
+
+    return year + "-" + month + "-" + day;
+  }
   getProjects = async () => {
     try {
       const data = await fetch("assets/info/defaultProjects.json");
@@ -90,11 +101,16 @@ export class ProjectsManager {
 
         json?.projects?.push(storedProject);
       }
-      return json?.projects;
+
+      return json?.projects.sort(this.compareDates);
     } catch (e) {
       console.log(e);
     }
   };
+
+  compareDates(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  }
   toggleNewProjectConfig = () => {
     this.inputs.newProjectConfig.classList.toggle("hide");
     this.inputs.projectNameInput.value = "";

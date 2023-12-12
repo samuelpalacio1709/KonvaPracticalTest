@@ -29,6 +29,7 @@ export class Editor {
     this.setProject(project);
     this.changeSelection(null);
     this.updateGuiView();
+    this.saveProject();
   };
 
   closeEditor() {
@@ -84,7 +85,6 @@ export class Editor {
     this.project.size.y = this.stage.height();
     this.project.data = json;
     localStorage.setItem(this.project.name, JSON.stringify(this.project));
-    console.log(this.stage);
   };
 
   setFigures = () => {

@@ -107,8 +107,10 @@ export const createMultiselector = (editor) => {
       tr.nodes(nodes);
     }
 
-    if (tr.nodes().length > 1) {
+    if (tr.nodes().length > 1 || tr.nodes().length <= 0) {
       editor.changeSelection(null);
+    } else if (tr.nodes().length == 1) {
+      editor.changeSelection(tr.nodes()[0]);
     }
   });
 
