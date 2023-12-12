@@ -90,7 +90,6 @@ export class ProjectsManager {
 
         json?.projects?.push(storedProject);
       }
-      console.log(JSON.stringify(json.projects[2]));
       return json?.projects;
     } catch (e) {
       console.log(e);

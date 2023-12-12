@@ -237,6 +237,7 @@ export class Editor {
     this.selected.setAttr("lastRotation", figure.rotation());
     this.selected.setAttr("lastScale", figure.scale());
     this.selected.setAttr("lastText", "");
+    this.selected.moveToTop();
 
     console.log(figure.stroke());
   };

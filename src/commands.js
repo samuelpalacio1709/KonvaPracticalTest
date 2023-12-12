@@ -68,11 +68,27 @@ class FigureCommand extends Command {
 
   execute = () => {
     this.layer.add(this.figure);
+    this.figure.setAttr("layerIndex", this.layer.children?.length);
+    this.orderFigures();
   };
 
   undo = () => {
     this.figure.remove();
+    this.orderFigures();
   };
+
+  orderFigures() {
+    let shapes = this.layer.children?.filter(
+      (shape) => shape.getAttr("layerIndex") >= 0
+    );
+
+    shapes = shapes?.sort((a, b) =>
+      a.getAttr("layerIndex") > b.getAttr("layerIndex") ? 1 : -1
+    );
+    for (const shape of shapes) {
+      shape.moveToTop();
+    }
+  }
 
   createFigure() {
     let figure = null;
@@ -154,13 +170,28 @@ class DeleteCommand extends Command {
     for (let i = 0; i < this.figures.length; i++) {
       this.figures[i].remove();
     }
+    this.orderFigures();
   };
 
   undo = () => {
     for (let i = 0; i < this.figures.length; i++) {
       this.layer.add(this.figures[i]);
     }
+    this.orderFigures();
   };
+
+  orderFigures() {
+    let shapes = this.layer.children?.filter(
+      (shape) => shape.getAttr("layerIndex") >= 0
+    );
+
+    shapes = shapes?.sort((a, b) =>
+      a.getAttr("layerIndex") > b.getAttr("layerIndex") ? 1 : -1
+    );
+    for (const shape of shapes) {
+      shape.moveToTop();
+    }
+  }
 }
 
 class ColorCommand extends Command {
