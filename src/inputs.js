@@ -22,6 +22,10 @@ const editorInputs = {
   download: document.querySelector("#download"),
   save: document.querySelector("#save"),
   figures: document.querySelectorAll(".figure"),
+  figureName: document.querySelector("#name-selected"),
+  deleteButton: document.querySelector("#delete-btn"),
+  undoButton: document.querySelector("#undo-btn"),
+  redoButton: document.querySelector("#redo-btn"),
 };
 
 const projectInputs = {

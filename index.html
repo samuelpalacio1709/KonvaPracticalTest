@@ -78,7 +78,27 @@
     </section>
 
     <section id="editor" class="canvas-editor hide">
-      <div id="canvas-container" class="canvas-container"></div>
+      <div id="canvas-container" class="canvas-container">
+      </div>
+      <div class="canvas-options-container" id="canvas-options">
+        <div class="stage-virtual" id="stage-virtual">
+          <div class="canvas-info">
+            <h2 id="name-selected">Name</h2>
+            <div class="canvas-options">
+              <div class="option-canva flex-container-center" id="delete-btn">
+                <img src="assets/imgs/trash.png" alt="">
+              </div>
+              <div class="option-canva flex-container-center" id="undo-btn">
+                <img src="assets/imgs/undo.png" alt="">
+              </div>
+              <div class="option-canva flex-container-center" id="redo-btn">
+                <img src="assets/imgs/redo.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
 
       <div class="canvas-config">
         <div class="scroll-options">
@@ -252,6 +272,8 @@
         <p>Hola como estas</p>
       </div>
     </div>
+
+
   </main>
   <script type="module" src="/main.js"></script>
 </body>

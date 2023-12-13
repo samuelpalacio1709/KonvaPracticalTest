@@ -1,6 +1,7 @@
 export class ViewController {
   constructor(editor) {
     this.editor = editor;
+    this.showCanvasOptions();
   }
 
   updateView = () => {
@@ -9,7 +10,20 @@ export class ViewController {
     } else {
       this.showCanvasGUI(this.editor);
     }
+    this.checkOptions(this.editor, this.editor.inputs);
   };
+
+  showCanvasOptions() {
+    const canvasOptionsContainer = document.querySelector("#stage-virtual");
+    const setSizes = () => {
+      canvasOptionsContainer.style.width = `${this.editor.stage.width()}px`;
+      canvasOptionsContainer.style.height = `${this.editor.stage.height()}px`;
+    };
+    setSizes();
+    this.editor.stage.on("widthChange heightChange", () => {
+      setSizes();
+    });
+  }
 
   hide = (element) => {
     element.classList.add("hide");
@@ -26,6 +40,10 @@ export class ViewController {
     inputs.heightCanvas.value = editor.stage.getHeight();
     inputs.colorPickerCanvas.value = editor.background.getFill();
     inputs.colorPickerTextCanvas.value = editor.background.getFill();
+    inputs.figureName.innerHTML = "";
+    inputs.deleteButton.style.opacity = 0.3;
+    inputs.undoButton.style.opacity = 0.3;
+    inputs.redoButton.style.opacity = 0.3;
 
     this.show(inputs.canvasEditorGUI);
     this.hide(inputs.figureEditorGUI);
@@ -51,9 +69,29 @@ export class ViewController {
     inputs.sizeHeight.value = Math.round(
       editor.selected.getHeight() * editor.selected.scaleY()
     );
-    console.log(editor.selected.rotation());
-
+    const id = editor.selected.getAttr("id");
+    inputs.figureName.innerHTML = id.charAt(0).toUpperCase() + id.slice(1);
     this.hide(inputs.canvasEditorGUI);
     this.show(inputs.figureEditorGUI);
+  }
+
+  checkOptions(editor, inputs) {
+    if (editor.hasSelection().length > 0) {
+      inputs.deleteButton.style.opacity = 1;
+    } else {
+      inputs.deleteButton.style.opacity = 0.3;
+    }
+
+    if (editor.commandInvoker.history.length > 0) {
+      inputs.undoButton.style.opacity = 1;
+    } else {
+      inputs.undoButton.style.opacity = 0.3;
+    }
+
+    if (editor.commandInvoker.redoHistory.length > 0) {
+      inputs.redoButton.style.opacity = 1;
+    } else {
+      inputs.redoButton.style.opacity = 0.3;
+    }
   }
 }

@@ -339,26 +339,29 @@ export class Editor {
   handleDelete = (e) => {
     if (typeof e.key !== "string") return;
 
+    if (e.key?.toLowerCase() == "delete") {
+      this.deleteSelection();
+    }
+  };
+
+  deleteSelection = () => {
     let deleteFigureCommand = null;
 
-    if (e.key?.toLowerCase() == "delete") {
-      if (this.transformer.nodes().length > 1) {
+    if (this.transformer.nodes().length > 1) {
+      deleteFigureCommand = new Command.DeleteCommand(
+        this.transformer.nodes(),
+        this.mainLayer
+      );
+      this.changeSelection(null);
+    } else {
+      if (this.selected) {
         deleteFigureCommand = new Command.DeleteCommand(
-          this.transformer.nodes(),
+          [this.selected],
           this.mainLayer
         );
         this.changeSelection(null);
-      } else {
-        if (this.selected) {
-          deleteFigureCommand = new Command.DeleteCommand(
-            [this.selected],
-            this.mainLayer
-          );
-          this.changeSelection(null);
-        }
       }
     }
-
     if (deleteFigureCommand) {
       this.handleInputChange(deleteFigureCommand);
     }
@@ -492,6 +495,19 @@ export class Editor {
     //Delete
     document.addEventListener("keydown", (e) => {
       this.handleDelete(e);
+    });
+    this.inputs.deleteButton.addEventListener("click", (e) => {
+      this.deleteSelection();
+    });
+
+    //Undo
+    this.inputs.undoButton.addEventListener("click", (e) => {
+      this.commandInvoker.undo();
+    });
+
+    //redo
+    this.inputs.redoButton.addEventListener("click", (e) => {
+      this.commandInvoker.redo();
     });
 
     //Close
