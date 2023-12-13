@@ -23,6 +23,30 @@ export class ViewController {
     this.editor.stage.on("widthChange heightChange", () => {
       setSizes();
     });
+
+    const allowDrop = (ev) => {
+      ev.preventDefault();
+    };
+
+    const drop = (ev) => {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("type");
+      if (data != "") {
+        this.editor.createFigure(data);
+      }
+    };
+
+    const drag = (ev) => {
+      ev.dataTransfer.setData("type", ev.target.dataset.figure);
+    };
+
+    for (const figure of this.editor.inputs.figures) {
+      figure.ondragstart = drag;
+    }
+
+    const container = document.querySelector(".canvas-container");
+    container.ondrop = drop;
+    container.ondragover = allowDrop;
   }
 
   hide = (element) => {
