@@ -132,7 +132,6 @@ const DrawText = (context, width, shape, height) => {
   context.font = preferences.defaultFigureText;
   context.fillStyle = preferences.defaultTextColor;
   const splitedText = splitString(text);
-  console.log(line);
   for (let i = 0; i < splitedText.length; i++) {
     const totalTextWidth = splitedText[i]
       .split("")

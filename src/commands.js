@@ -280,7 +280,6 @@ class ColorBorderCommand extends Command {
 class BorderSizeCommand extends Command {
   constructor(figure, input) {
     super();
-    console.log(input.value);
     this.figure = figure;
     this.lastBorder = Number(figure.strokeWidth());
     this.border = Number(input.value);

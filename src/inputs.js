@@ -24,8 +24,11 @@ const editorInputs = {
   figures: document.querySelectorAll(".figure"),
   figureName: document.querySelector("#name-selected"),
   deleteButton: document.querySelector("#delete-btn"),
+  container: document.querySelector("#canvas-container"),
   undoButton: document.querySelector("#undo-btn"),
   redoButton: document.querySelector("#redo-btn"),
+  zoomIn: document.querySelector("#zoom-in"),
+  zoomOut: document.querySelector("#zoom-out"),
 };
 
 const projectInputs = {

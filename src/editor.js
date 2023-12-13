@@ -33,7 +33,6 @@ export class Editor {
   };
 
   closeEditor() {
-    console.log("Close editor");
     this.inputs.closeProjectBtn.classList.add("hide");
     this.container.classList.add("hide");
   }
@@ -116,7 +115,6 @@ export class Editor {
     this.transformer = new Konva.Transformer(preferences.defaultTransformer);
 
     if (this.stage.children <= 0) {
-      console.log("Getting new layers");
       this.mainLayer = new Konva.Layer();
       this.transformerLayer = new Konva.Layer();
       this.stage.add(this.mainLayer);
@@ -243,7 +241,6 @@ export class Editor {
     this.selected.setAttr("line", 25);
     this.selected.moveToTop();
     this.updateGuiView();
-    console.log(figure.stroke());
   };
 
   updateGuiView = () => {

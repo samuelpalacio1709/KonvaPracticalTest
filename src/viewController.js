@@ -1,6 +1,7 @@
 export class ViewController {
   constructor(editor) {
     this.editor = editor;
+    this.scale = 1;
     this.showCanvasOptions();
   }
 
@@ -14,14 +15,22 @@ export class ViewController {
   };
 
   showCanvasOptions() {
-    const canvasOptionsContainer = document.querySelector("#stage-virtual");
-    const setSizes = () => {
-      canvasOptionsContainer.style.width = `${this.editor.stage.width()}px`;
-      canvasOptionsContainer.style.height = `${this.editor.stage.height()}px`;
-    };
-    setSizes();
+    this.canvasOptionsContainer = document.querySelector("#stage-virtual");
+
+    this.setSizes();
     this.editor.stage.on("widthChange heightChange", () => {
-      setSizes();
+      this.setSizes();
+    });
+
+    this.editor.inputs.zoomIn.addEventListener("click", () => {
+      this.scale += 0.1;
+      if (this.scale >= 5) this.scale = 5;
+      this.setSizes();
+    });
+    this.editor.inputs.zoomOut.addEventListener("click", () => {
+      this.scale -= 0.1;
+      if (this.scale <= 0.2) this.scale = 0.2;
+      this.setSizes();
     });
 
     const allowDrop = (ev) => {
@@ -48,6 +57,12 @@ export class ViewController {
     container.ondrop = drop;
     container.ondragover = allowDrop;
   }
+  setSizes = () => {
+    this.canvasOptionsContainer.style.width = `${this.editor.stage.width()}px`;
+    this.canvasOptionsContainer.style.height = `${this.editor.stage.height()}px`;
+    this.editor.stage.container().style.transform = `scale(${this.scale})`;
+    this.canvasOptionsContainer.style.transform = `scale(${this.scale})`;
+  };
 
   hide = (element) => {
     element.classList.add("hide");

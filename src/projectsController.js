@@ -94,7 +94,6 @@ export class ProjectsManager {
       }
       for (const localProject of Object.values(localStorage)) {
         const storedProject = JSON.parse(localProject);
-
         json.projects = json?.projects?.filter((project) => {
           return project.name != storedProject.name;
         });
@@ -146,7 +145,6 @@ export class ProjectsManager {
   showProjects = async () => {
     this.projects = await this.getProjects();
     this.fillProjectData();
-    console.log("show");
     this.inputs.projectSection.classList.remove("hide");
     this.inputs.container.classList.remove("hide");
     this.inputs.btnNew.classList.remove("hide");
