@@ -26,19 +26,25 @@
     <section class="projects-section" id="projects-list">
 
       <div class="new-project hide" id="new-project">
-        <div class="config flex-container-center ">
-          <h2>Name</h2>
+        <div class="config ">
+          <h2 class=" second-title">New project name</h2>
           <input class="input-text-inside" type="text" id="new-project-name">
+
+          <div class="sizes-options">
+            <div class="options-wrapper">
+              <h2>Width</h2>
+              <input class="input-text-inside width-config" type="number" value=500 id="new-project-width">
+            </div>
+            <div class="options-wrapper">
+              <h2>Height</h2>
+              <input class="input-text-inside width-config" type="number" value=500 id="new-project-height">
+            </div>
+          </div>
+
+
+
         </div>
 
-        <div class="config flex-container-center ">
-          <div class="new-sizes">
-            <h2>Width</h2>
-            <input class="input-text-inside" type="number" value=500 id="new-project-width">
-            <h2>Height</h2>
-            <input class="input-text-inside" type="number" value=500 id="new-project-height">
-          </div>
-        </div>
 
         <div class="new-options">
           <button class="project-button" id="cancel-new-button">
@@ -100,15 +106,24 @@
               <div class="selection">
                 <h2 class="input-text">Position</h2>
                 <div class="inputs-collection">
-                  <input class="input-number" id="x-position" type="number" placeholder="X" />
-                  <input class="input-number" id="y-position" type="number" placeholder="Y" />
+                  <div class="input-label-x input-wrapper">
+                    <input class="input-number" id="x-position" type="number" placeholder="X" />
+                  </div>
+                  <div class="input-label-y input-wrapper">
+                    <input class="input-number" id="y-position" type="number" placeholder="Y" />
+                  </div>
                 </div>
               </div>
               <div class="selection">
                 <h2 class="input-text">Size</h2>
                 <div class="inputs-collection">
-                  <input class="input-number" id="width" type="number" placeholder="W" />
-                  <input class="input-number" id="height" type="number" placeholder="H" />
+
+                  <div class="input-label-w input-wrapper">
+                    <input class="input-number input-label-w" id="width" type="number" placeholder="W" />
+                  </div>
+                  <div class="input-label-h input-wrapper">
+                    <input class="input-number input-label-h " id="height" type="number" placeholder="H" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -117,8 +132,9 @@
               <div class="simple-selector">
                 <h2 class="input-text">Background</h2>
                 <div class="flex-container-start">
-                  <input class="input-color" type="color" id="color-picker" />
-                  <input class="input-number-color" type="text" placeholder="#FFFFFF" id="color-picker-text" />
+                  <input class="input-color " type="color" id="color-picker" />
+                  <input class="input-number-color input-color-bg" type="text" placeholder="#FFFFFF"
+                    id="color-picker-text" />
                 </div>
               </div>
             </div>
@@ -128,7 +144,10 @@
                 <h2 class="input-text">Opacity</h2>
                 <div class="flex-container-start">
                   <input type="range" id="opacity-range" min="0" max="1" value="1" step="0.01" />
-                  <input class="input-percentage" id="opacity-number" type="number" placeholder="%" max="100" min="0" />
+                  <div class="input-label-p input-wrapper">
+                    <input class="input-percentage" id="opacity-number" type="number" placeholder="%" max="100"
+                      min="0" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,11 +163,12 @@
                   </div>
                   <div class="flex-container-start">
                     <h4>Line</h4>
-                    <input class="input-number-borders" id="border-color-value" type="number" placeholder="" />
+                    <input class="input-number-borders" id="line-value" type="number" placeholder="" value=25 min=0 />
                   </div>
                   <div class="flex-container-start">
                     <h4>Spacing</h4>
-                    <input class="input-number-borders" id="border-color-value" type="number" placeholder="" />
+                    <input class="input-number-borders" id="spacing-value" type="number" placeholder="" value=10
+                      min=0 />
                   </div>
                 </div>
               </div>
@@ -159,7 +179,7 @@
               <div class="simple-selector">
                 <div class="flex-container-start">
                   <h2 class="m-right">Text</h2>
-                  <input class="input-text-inside" id="text" type="text" placeholder="Write a text" />
+                  <input class="input-text-inside" id="text" type="text" placeholder="Write the text" />
                 </div>
               </div>
             </div>
@@ -185,14 +205,19 @@
             </div>
             <div class="line-separator"></div>
 
-            <div id="transformations" class="config-selector">
+            <div id="transformations" class="config-selector canvas-size">
               <h2>Canvas</h2>
 
               <div class="selection">
                 <h2 class="input-text">Size</h2>
                 <div class="inputs-collection">
-                  <input class="input-number" id="width-canvas" type="number" placeholder="W" />
-                  <input class="input-number" id="height-canvas" type="number" placeholder="H" />
+                  <div class="input-label-w input-wrapper">
+                    <input class="input-number " id="width-canvas" type="number" placeholder="W" />
+                  </div>
+
+                  <div class="input-label-h input-wrapper">
+                    <input class="input-number " id="height-canvas" type="number" placeholder="H" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -201,8 +226,9 @@
               <div class="simple-selector">
                 <h2 class="input-text">Background</h2>
                 <div class="flex-container-start">
-                  <input class="input-color" type="color" id="color-picker-canvas" />
-                  <input class="input-number-color" type="text" placeholder="#FFFFFF" id="color-picker-text-canvas" />
+                  <input class="input-color " type="color" id="color-picker-canvas" />
+                  <input class="input-number-color input-color-bg" type="text" placeholder="#FFFFFF"
+                    id="color-picker-text-canvas" />
                 </div>
               </div>
             </div>
@@ -210,15 +236,22 @@
         </div>
 
         <div class="project-buttons">
-          <button id="save">
+          <button class="btn-project save" id="save">
+            <img src="assets/imgs/save.png" alt="download img">
             <h3>Save</h3>
           </button>
-          <button id="download">
+          <button class="btn-project download" id="download">
+            <img src="assets/imgs/download.png" alt="download img">
             <h3>Download</h3>
           </button>
         </div>
       </div>
     </section>
+    <div class="toast-message flex-container-center">
+      <div class="message toast">
+        <p>Hola como estas</p>
+      </div>
+    </div>
   </main>
   <script type="module" src="/main.js"></script>
 </body>

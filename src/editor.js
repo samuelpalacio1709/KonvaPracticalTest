@@ -4,7 +4,7 @@ import Command from "./commands.js";
 import { ViewController } from "./viewController.js";
 import { createMultiselector } from "./multiselector.js";
 import { drawMultipleFigures } from "./shapes.js";
-
+import { showToast } from "./toastMessage.js";
 export class Editor {
   constructor(inputs) {
     this.inputs = inputs;
@@ -50,7 +50,7 @@ export class Editor {
 
     //Event launched when a property has changed
 
-    this.transformer.on("transform", (e) => {
+    this.transformer.on("transform", () => {
       this.updateGuiView();
     });
     this.transformer.on("transformstart", () => {
@@ -237,8 +237,12 @@ export class Editor {
     this.selected.setAttr("lastRotation", figure.rotation());
     this.selected.setAttr("lastScale", figure.scale());
     this.selected.setAttr("lastText", "");
+    this.selected.setAttr("lastLine", 25);
+    this.selected.setAttr("lastSpacing", 10);
+    this.selected.setAttr("spacing", 10);
+    this.selected.setAttr("line", 25);
     this.selected.moveToTop();
-
+    this.updateGuiView();
     console.log(figure.stroke());
   };
 
@@ -360,11 +364,18 @@ export class Editor {
     }
   };
 
-  handleTextChange = (input, targetObject) => {
+  handleTextChange = (targetObject) => {
     if (targetObject) {
-      const TextCommand = new Command.TextCommand(targetObject, input);
+      const TextCommand = new Command.TextCommand(
+        targetObject,
+        this.inputs.text,
+        this.inputs.textLine,
+        this.inputs.textSpacing
+      );
       this.handleInputChange(TextCommand);
-      targetObject.setAttr("lastText", input.value);
+      targetObject.setAttr("lastText", this.inputs.text.value);
+      targetObject.setAttr("lastSpacing", this.inputs.textSpacing.value);
+      targetObject.setAttr("lastLine", this.inputs.textLine.value);
     }
   };
 
@@ -452,13 +463,14 @@ export class Editor {
 
     //Text
     this.inputs.text.addEventListener("change", () => {
-      this.handleTextChange(this.inputs.text, this.selected);
+      this.handleTextChange(this.selected);
     });
 
-    this.inputs.text.addEventListener("input", (e) => {
-      if (this.selected) {
-        this.selected.setAttr("text", e.target.value);
-      }
+    this.inputs.textLine.addEventListener("change", () => {
+      this.handleTextChange(this.selected);
+    });
+    this.inputs.textSpacing.addEventListener("change", () => {
+      this.handleTextChange(this.selected);
     });
 
     // Position
@@ -532,6 +544,25 @@ export class Editor {
     });
     this.inputs.sizeHeight.addEventListener("input", () => {
       this.handleTransformPreview();
+    });
+
+    //Text preview
+    this.inputs.text.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.setAttr("text", e.target.value);
+      }
+    });
+
+    this.inputs.textLine.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.setAttr("line", Number(e.target.value));
+      }
+    });
+
+    this.inputs.textSpacing.addEventListener("input", (e) => {
+      if (this.selected) {
+        this.selected.setAttr("spacing", Number(e.target.value));
+      }
     });
   };
 }

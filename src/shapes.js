@@ -127,12 +127,12 @@ export const drawHeart = (context, shape) => {
 
 const DrawText = (context, width, shape, height) => {
   const text = shape.getAttr("text") || "";
-  const line = 50;
+  const line = Number(shape.getAttr("line")) || 25;
+  const spacing = Number(shape.getAttr("spacing")) || 10;
   context.font = preferences.defaultFigureText;
   context.fillStyle = preferences.defaultTextColor;
   const splitedText = splitString(text);
-  const spacing = 10;
-
+  console.log(line);
   for (let i = 0; i < splitedText.length; i++) {
     const totalTextWidth = splitedText[i]
       .split("")
@@ -165,7 +165,7 @@ const splitString = (text) => {
       maxCount += max;
     }
   }
-  strings.push(text.slice(maxCount, text.length));
+  strings.push(text?.slice(maxCount, text.length));
 
   return strings;
 };

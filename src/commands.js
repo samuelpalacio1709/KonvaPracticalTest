@@ -232,20 +232,30 @@ class OpacityCommand extends Command {
 }
 
 class TextCommand extends Command {
-  constructor(figure, input) {
+  constructor(figure, inputText, inputLine, inputSpacing) {
     super();
     this.figure = figure;
-    this.text = input.value;
+    this.text = inputText.value;
+    this.line = inputLine.value;
+    this.spacing = inputSpacing.value;
     this.lastText = figure.getAttr("lastText");
+    this.lastSpacing = figure.getAttr("lastSpacing");
+    this.lastLine = figure.getAttr("lastLine");
   }
 
   execute = () => {
     this.figure.setAttr("text", this.text);
+    this.figure.setAttr("line", this.line);
+    this.figure.setAttr("spacing", this.spacing);
   };
 
   undo = () => {
     this.figure.setAttr("text", this.lastText);
     this.figure.setAttr("lastText", this.lastText);
+    this.figure.setAttr("spacing", this.lastSpacing);
+    this.figure.setAttr("lastSpacing", this.lastSpacing);
+    this.figure.setAttr("line", this.lastLine);
+    this.figure.setAttr("lastLine", this.lastLine);
   };
 }
 

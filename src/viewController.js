@@ -38,10 +38,12 @@ export class ViewController {
     inputs.colorPicker.value = editor.selected.getFill();
     inputs.opacity.value = editor.selected.getOpacity();
     inputs.opacityText.value = Math.round(editor.selected.getOpacity() * 100);
-    inputs.positionX.value = position.x.toFixed(2);
-    inputs.positionY.value = position.y.toFixed(2);
+    inputs.positionX.value = Math.round(position.x);
+    inputs.positionY.value = Math.round(position.y);
     inputs.borderSize.value = editor.selected.strokeWidth();
     inputs.text.value = editor.selected.getAttr("text") || "";
+    inputs.textLine.value = editor.selected.getAttr("line") || "";
+    inputs.textSpacing.value = editor.selected.getAttr("spacing") || "";
     inputs.borderColorPicker.value = editor.selected.stroke();
     inputs.sizeWidth.value = Math.round(
       editor.selected.getWidth() * editor.selected.scaleX()

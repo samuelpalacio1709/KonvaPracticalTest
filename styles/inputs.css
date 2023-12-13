@@ -1,0 +1,208 @@
+input:focus {
+    outline: none;
+}
+
+.input-number,
+.input-number-color,
+.input-percentage,
+.input-number-borders,
+.input-text-inside {
+    width: 71px;
+    height: 35px;
+    border-radius: var(--border-radius-third);
+    padding: 3px;
+    border: 1px solid var(--dash-lines-color);
+}
+
+.input-number-color {
+    width: 90px;
+    margin-left: 20px;
+}
+
+.input-percentage {
+    width: 52px;
+    margin-left: 20px;
+}
+
+
+
+.inputs-collection {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+.input-text {
+    width: 30%;
+}
+
+.input-text-inside {
+    width: 70%;
+}
+
+input[type="range"] {
+    width: 60%;
+}
+
+
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--border-radius-third);
+}
+
+input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: var(--border-radius-third);
+}
+
+input[type="color"] {
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="text"]::after {
+    content: "xxxxxxxxxxx";
+}
+
+
+.input-color {
+    border: none;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    border-color: transparent;
+    background-color: transparent;
+    border-radius: var(--border-radius-third);
+    border: 1px solid var(--dash-lines-color);
+    cursor: pointer;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: #DFE6F2;
+    height: 8px;
+    overflow: visible;
+}
+
+
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 22px;
+    width: 22px;
+    border: 4px solid rgb(255, 255, 255);
+
+    background-color: #C4E538;
+    border-radius: 50%;
+    box-shadow: 0px 1px 1px #00000029;
+
+
+}
+
+
+
+input[type="range"]::-moz-range-thumb {
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    border: 4px solid rgb(255, 255, 255);
+    background-color: #C4E538;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: 0px 1px 1px #00000029;
+
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding-right: 20px;
+    font-size: 11px;
+
+    padding-left: 10px;
+}
+
+input[type="text"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    padding-right: 20px;
+    padding-left: 10px;
+}
+
+input[type="text"].input-color-bg {
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--titles-color);
+    border-radius: 2px;
+    text-align: center;
+
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+input.input-number-borders {
+    width: 35px;
+    height: 35px;
+    margin-left: 8px;
+    padding: 0px;
+    text-align: center;
+}
+
+.input-wrapper::after {
+    position: absolute;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 11px;
+    font-weight: 100;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-55%);
+    color: var(--dash-lines-color);
+}
+
+.input-label-w::after {
+    content: "W";
+}
+
+.input-label-h::after {
+    content: "H";
+}
+
+.input-label-x::after {
+    content: "X";
+}
+
+.input-label-y::after {
+    content: "Y";
+}
+
+.input-label-p::after {
+    content: "%";
+    color: var(--titles-color);
+
+
+}

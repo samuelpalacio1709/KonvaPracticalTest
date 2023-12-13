@@ -1,5 +1,5 @@
 import { Project } from "./project";
-
+import { showToast } from "./toastMessage";
 export class ProjectsManager {
   constructor(editor, inputs) {
     this.editor = editor;
@@ -125,10 +125,18 @@ export class ProjectsManager {
     const width = this.inputs.projectWidthInput.value;
     const height = this.inputs.projectHeightInput.value;
 
-    if (name === "") return;
-    if (width < 250) return;
-    if (height < 250) return;
-    if (this.projects?.find((project) => project.name == name)) return;
+    if (name === "") {
+      showToast("Please provide a name");
+      return;
+    }
+    if (width < 250 || height < 250) {
+      showToast("Width and height must be greater than 250px");
+      return;
+    }
+    if (this.projects?.find((project) => project.name == name)) {
+      showToast("There is an existing project with that name");
+      return;
+    }
 
     const project = new Project(name, { x: width, y: height }, null);
 

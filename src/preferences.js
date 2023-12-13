@@ -71,6 +71,9 @@ export const preferences = {
 
 const setBehaviors = () => {
   preventZoom();
+  window.onpopstate = function (event) {
+    location.reload();
+  };
 };
 
 const preventZoom = () => {

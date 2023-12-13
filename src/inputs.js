@@ -11,6 +11,8 @@ const editorInputs = {
   closeProjectBtn: document.querySelector("#close-project-btn"),
   borderColorPicker: document.querySelector("#border-color"),
   text: document.querySelector("#text"),
+  textLine: document.querySelector("#line-value"),
+  textSpacing: document.querySelector("#spacing-value"),
   borderSize: document.querySelector("#border-value"),
   colorPickerText: document.querySelector("#color-picker-text"),
   opacity: document.querySelector("#opacity-range"),
